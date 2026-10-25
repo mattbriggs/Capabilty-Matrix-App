@@ -5,79 +5,109 @@
 [![Open issues](https://img.shields.io/github/issues/mattbriggs/Capabilty-Matrix-App?style=flat)](https://github.com/mattbriggs/Capabilty-Matrix-App/issues)
 [![Last commit](https://img.shields.io/github/last-commit/mattbriggs/Capabilty-Matrix-App?style=flat)](https://github.com/mattbriggs/Capabilty-Matrix-App/commits)
 
-A planning workspace for exploring capability maturity, ownership, dependencies, and future change across an appliance and its federated domain.
+## What this app is for
 
-The React app provides three linked views:
+The Capability and Ownership Matrix is a planning workspace for teams deciding **what capabilities a product or service needs, how mature those capabilities are today, and where they should belong in the future**.
 
-- **Matrix** — compare capabilities across audience perspectives and maturity levels.
-- **Capability journey** — review one capability's current and target states, dependencies, and ownership.
-- **Federated domain map** — explore relationships and ownership across capabilities.
+It helps make product and domain boundaries visible. Teams can compare current and planned maturity, see dependencies, and discuss whether a capability should remain part of an appliance or move to a shared, federated service. Audience perspectives help frame those decisions for clients, consultants, product teams, leadership, and the wider domain.
 
-The selected capability, audience, and current/future state are shared across views. The project uses React and Vite for the UI, Tauri 2 for the desktop app, and a Python sidecar for validation and draft content/report manifests.
+The app is a planning and visualization tool, not a source of authoritative organizational facts. The bundled data is an illustrative example; replace it with your own project capability document.
+
+## What you can do
+
+- Explore capabilities in three linked views:
+  - **Matrix:** compare capability maturity across audience perspectives.
+  - **Capability journey:** examine one capability's current and target maturity, dependencies, and ownership.
+  - **Federated domain map:** explore capability relationships and appliance/federated boundaries.
+- Keep the selected capability, audience perspective, and current/future state in context while navigating between views.
+- Import a project YAML file, edit capability records, and export the updated YAML.
+- Print the active view for discussion or planning.
+- Review proposed DITA audience, maturity, and ownership metadata.
+
+YAML is the canonical capability document. Browser edits stay in memory until exported. The desktop app also saves imported and edited YAML in its application data directory. The DITA panel is a planning aid only; it does not validate Heretto mappings or publish content.
 
 ## Get started
 
-### Web preview
+### Requirements
 
-Requires Node.js and npm.
+- Node.js and npm for the web app.
+- Python 3.10 or later and `venv` for the sidecar build and documentation site.
+- Rust and the platform prerequisites required by [Tauri 2](https://v2.tauri.app/start/prerequisites/) to run or package the desktop app.
 
-```bash
-npm install
-npm run dev
-```
+### Install
 
-The browser preview keeps edits in memory. Export YAML to save your work.
-
-### Desktop app
-
-Requires Node.js, Rust, and Python 3.10 or later.
+From the repository root:
 
 ```bash
 npm install
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
+```
+
+On Windows, use `.venv\Scripts\python.exe` instead of `.venv/bin/python`.
+
+### Run the web preview
+
+```bash
+npm run dev
+```
+
+Open the local URL printed by Vite. The preview provides the app's core views and YAML workflows. It does not save changes automatically, so export your YAML before closing or refreshing.
+
+### Run the desktop app
+
+Build the Python sidecar, then start the Tauri desktop shell:
+
+```bash
 npm run sidecar:build
 npm run tauri dev
 ```
 
-The desktop app loads and saves `capabilities.yaml` in its application data directory. Build the sidecar on each target operating system and architecture before packaging.
-
-### Documentation site
-
-The documentation source is in [`site/`](site/index.md) and the built HTML is written to `docs/`.
+The sidecar build uses the repository's `.venv` and creates a native executable under `src-tauri/binaries/`. Build it on each target operating system and architecture before packaging. To create a desktop package, run:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+npm run tauri build
+```
+
+The desktop app loads and saves `capabilities.yaml` in its Tauri application data directory.
+
+## Use your project data
+
+1. **Prepare a YAML file.** Start with [`src/data/capabilities.yaml`](src/data/capabilities.yaml) and save a project-specific copy. Give each capability a unique ID, name, current and target maturity, current and future owner, and any dependencies.
+2. **Import it.** In the app, choose **Import YAML** and select the `.yaml` or `.yml` file. A successful import replaces the active capability set.
+3. **Explore and edit.** Select a capability, choose an audience perspective, and switch between current and future state. Use **Edit capability** to update a record; the views stay linked to the same data.
+4. **Export your work.** Choose **Export YAML** to download a portable copy. Browser changes are not persisted unless exported. In the desktop app, a successful import or edit also updates the app's saved YAML.
+
+The desktop Python sidecar checks capability relationships such as dependency references and owner values. The browser preview performs basic record and maturity checks but does not run the sidecar, so use the documented YAML values and ensure all dependency IDs exist in the file.
+
+See the [user guide](site/guide.md) for additional workflow details and the [YAML format reference](site/yaml-format.md) for fields and validation rules.
+
+## Build and preview the documentation
+
+The documentation uses MkDocs Material with Mermaid diagrams. Markdown source files live in [`site/`](site/); the generated static HTML goes to `docs/`.
+
+```bash
 .venv/bin/mkdocs serve
 ```
 
-To build the static site:
+To build the static documentation:
 
 ```bash
 .venv/bin/mkdocs build
 ```
 
-## Using the app
-
-Use **Import YAML** to load a capability file, **Edit capability** to change the selected record, and **Export YAML** to save a portable copy. In the desktop app, importing and editing also save to the app's data directory. The browser preview does not auto-save.
-
-For YAML structure, project setup, and detailed workflows, start with the [user guide](site/guide.md) and [YAML reference](site/yaml-format.md). The documentation is built with MkDocs Material and Mermaid diagrams.
-
 ## Project layout
 
 | Path | Purpose |
 | --- | --- |
-| `src/` | React app, views, styling, YAML model, and bundled sample |
-| `sidecar/main.py` | Python JSON-line validation and draft manifest processor |
-| `src-tauri/` | Tauri desktop shell and native integration |
-| `pyproject.toml` | Python project metadata and build/documentation tool groups |
-| `requirements.txt` | Python build and documentation dependencies for `.venv` |
-| `mkdocs.yml` | MkDocs Material configuration; source `site/`, output `docs/` |
-| `site/` | Markdown documentation source |
+| `src/` | React app, shared views, YAML model, and bundled example |
+| `sidecar/main.py` | Python validation and draft content/report manifest processor |
+| `src-tauri/` | Tauri desktop shell, persistence, and sidecar integration |
+| `pyproject.toml` | Python project metadata and optional tool groups |
+| `requirements.txt` | Python sidecar build and documentation dependencies |
+| `mkdocs.yml` | MkDocs configuration; source is `site/`, output is `docs/` |
+| `site/` | Markdown documentation |
 
-The bundled [`src/data/capabilities.yaml`](src/data/capabilities.yaml) is illustrative sample data, not a statement of actual project ownership or capability maturity.
+## Current scope
 
-## Scope notes
-
-YAML is the canonical capability document. The content-mapping panel records proposed DITA metadata only; its values are not a validated Heretto configuration and do not publish content. Heretto Deploy API delivery and PDF Gen manuals remain future integration targets.
+The app records capability planning data and proposed DITA metadata. It does not publish to Heretto, generate production DITAVAL files, or create PDF manuals. Heretto Deploy API and PDF Gen are future integration targets; any content mappings should be validated against the eventual DITA content model before use.
