@@ -1,0 +1,6 @@
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/serialize_to_javascript-62cb4429869d58cd.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/private.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/libserialize_to_javascript-62cb4429869d58cd.rmeta: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/private.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/lib.rs:
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serialize-to-javascript-0.1.2/src/private.rs:

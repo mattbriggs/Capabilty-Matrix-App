@@ -1,0 +1,99 @@
+version: 1
+capabilities:
+  - id: contextual-guidance
+    name: Contextual guidance
+    current: 3
+    target: 5
+    owner: appliance
+    futureOwner: federated
+    summary: Relevant, in-device and external guidance at the point of need.
+    decision: Define the handoff from product-owned guidance to a federated content
+      service.
+    dependencies:
+      - deployment-metadata
+      - content-service
+    dita:
+      audience:
+        - client
+        - consultant
+      maturity: phase-3
+      ownership: appliance-native
+  - id: deployment-metadata
+    name: Deployment metadata
+    current: 3
+    target: 5
+    owner: appliance
+    futureOwner: appliance
+    summary: Structured product, task and deployment context for downstream services.
+    decision: Agree on a stable metadata contract before expanding content delivery.
+    dependencies: []
+    dita:
+      audience:
+        - consultant
+        - product-team
+      maturity: phase-3
+      ownership: appliance-native
+  - id: audit-trail
+    name: Audit trail
+    current: 4
+    target: 6
+    owner: federated
+    futureOwner: federated
+    summary: Evidence of actions and changes across the wider environment.
+    decision: Assign event ownership and retention responsibilities across systems.
+    dependencies:
+      - identity-service
+    dita:
+      audience:
+        - client
+        - leadership
+      maturity: phase-4
+      ownership: federated-infra
+  - id: identity-service
+    name: Identity service
+    current: 4
+    target: 6
+    owner: federated
+    futureOwner: federated
+    summary: Shared identity and access context across the estate.
+    decision: Clarify which system is authoritative for identity and permissions.
+    dependencies: []
+    dita:
+      audience:
+        - product-team
+        - consultant
+      maturity: phase-4
+      ownership: federated-infra
+  - id: content-service
+    name: Content service
+    current: 2
+    target: 5
+    owner: federated
+    futureOwner: federated
+    summary: Governed content served across products, channels and devices.
+    decision: Map a single DITA content stock to embedded help and PDF manuals.
+    dependencies:
+      - deployment-metadata
+    dita:
+      audience:
+        - client
+        - consultant
+      maturity: phase-2
+      ownership: federated-infra
+  - id: domain-insight
+    name: Domain insight
+    current: 2
+    target: 5
+    owner: federated
+    futureOwner: federated
+    summary: Cross-domain reporting, insight and optimization opportunities.
+    decision: Identify useful signals without expanding the appliance boundary.
+    dependencies:
+      - audit-trail
+      - content-service
+    dita:
+      audience:
+        - leadership
+        - wider-domain
+      maturity: phase-2
+      ownership: federated-infra

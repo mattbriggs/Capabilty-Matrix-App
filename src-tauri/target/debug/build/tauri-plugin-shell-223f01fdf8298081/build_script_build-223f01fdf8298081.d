@@ -1,0 +1,6 @@
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/tauri-plugin-shell-223f01fdf8298081/build_script_build-223f01fdf8298081.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/src/scope_entry.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/tauri-plugin-shell-223f01fdf8298081/build_script_build-223f01fdf8298081: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/src/scope_entry.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/build.rs:
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-plugin-shell-2.5.0/src/scope_entry.rs:

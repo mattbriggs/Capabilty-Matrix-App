@@ -1,0 +1,6 @@
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/web_atoms-c56af26641e1f4e2/build_script_build-c56af26641e1f4e2.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/entities.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/web_atoms-c56af26641e1f4e2/build_script_build-c56af26641e1f4e2: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/entities.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/build.rs:
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/web_atoms-0.2.6/entities.rs:

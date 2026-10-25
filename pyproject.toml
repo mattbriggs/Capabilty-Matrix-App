@@ -1,0 +1,14 @@
+[project]
+name = "capability-matrix-sidecar"
+version = "0.1.0"
+description = "Python validation sidecar and documentation tooling for Capability and Ownership Matrix"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+build = [
+    "pyinstaller>=6,<7",
+]
+docs = [
+    "mkdocs-material>=9.5,<10",
+]

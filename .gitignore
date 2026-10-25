@@ -1,0 +1,17 @@
+node_modules
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+/docs/
+/.mkdocs_cache/
+/.pyinstaller-config/
+/.sidecar-build/

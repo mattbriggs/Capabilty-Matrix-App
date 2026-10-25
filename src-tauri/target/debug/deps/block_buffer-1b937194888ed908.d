@@ -1,0 +1,8 @@
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/block_buffer-1b937194888ed908.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/libblock_buffer-1b937194888ed908.rlib: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/libblock_buffer-1b937194888ed908.rmeta: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs:

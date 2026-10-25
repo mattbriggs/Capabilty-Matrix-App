@@ -1,0 +1,6 @@
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/tauri-e4d7ed7b7dca9a1c/build_script_build-e4d7ed7b7dca9a1c.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/./mobile/proguard-tauri.pro
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/tauri-e4d7ed7b7dca9a1c/build_script_build-e4d7ed7b7dca9a1c: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/build.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/./mobile/proguard-tauri.pro
+
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/build.rs:
+/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/tauri-2.12.5/./mobile/proguard-tauri.pro:
