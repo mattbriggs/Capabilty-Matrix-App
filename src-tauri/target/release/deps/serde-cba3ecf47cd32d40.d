@@ -1,0 +1,14 @@
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/serde-cba3ecf47cd32d40.d: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/serde-2392dc71c01dd448/out/private.rs
+
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/libserde-cba3ecf47cd32d40.rlib: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/serde-2392dc71c01dd448/out/private.rs
+
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/libserde-cba3ecf47cd32d40.rmeta: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/serde-2392dc71c01dd448/out/private.rs
+
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/serde-2392dc71c01dd448/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/serde-2392dc71c01dd448/out

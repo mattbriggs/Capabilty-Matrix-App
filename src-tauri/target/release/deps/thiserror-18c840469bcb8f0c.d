@@ -1,0 +1,14 @@
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/thiserror-18c840469bcb8f0c.d: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/aserror.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/display.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/var.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/private.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/thiserror-60e315fbb80f253d/out/private.rs
+
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/libthiserror-18c840469bcb8f0c.rlib: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/aserror.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/display.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/var.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/private.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/thiserror-60e315fbb80f253d/out/private.rs
+
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/deps/libthiserror-18c840469bcb8f0c.rmeta: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/aserror.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/display.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/var.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/private.rs /Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/thiserror-60e315fbb80f253d/out/private.rs
+
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/lib.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/aserror.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/display.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/var.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.21/src/private.rs:
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/thiserror-60e315fbb80f253d/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/release/build/thiserror-60e315fbb80f253d/out

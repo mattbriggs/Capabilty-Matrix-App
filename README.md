@@ -54,7 +54,7 @@ npm run dev
 
 Open the local URL printed by Vite. The preview provides the app's core views and YAML workflows. It does not save changes automatically, so export your YAML before closing or refreshing.
 
-### Run the desktop app
+### Run the desktop app during development
 
 Build the Python sidecar, then start the Tauri desktop shell:
 
@@ -63,13 +63,26 @@ npm run sidecar:build
 npm run tauri dev
 ```
 
-The sidecar build uses the repository's `.venv` and creates a native executable under `src-tauri/binaries/`. Build it on each target operating system and architecture before packaging. To create a desktop package, run:
+The sidecar build uses the repository's `.venv` and creates a native executable under `src-tauri/binaries/`. Build it on each target operating system and architecture before packaging.
+
+### Build and launch the macOS app
+
+Run these commands from the repository root on a Mac. The sidecar must be built for the Mac's architecture (Apple Silicon or Intel) before packaging:
 
 ```bash
+npm run sidecar:build
 npm run tauri build
 ```
 
-The desktop app loads and saves `capabilities.yaml` in its Tauri application data directory.
+Tauri builds the app bundle in `src-tauri/target/release/bundle/macos/` and, with the configured `all` bundle targets, a disk image in `src-tauri/target/release/bundle/dmg/`. Launch the built app from Terminal with:
+
+```bash
+open "src-tauri/target/release/bundle/macos/Capability and Ownership Matrix.app"
+```
+
+You can also open the `.app` in Finder or install it by opening the generated `.dmg` and dragging the app into Applications. The desktop app loads and saves `capabilities.yaml` in its Tauri application data directory.
+
+For a development build that opens the desktop window while Vite is running, use `npm run tauri dev` instead. The release `.app` is a local build; distributing it to other users may require Apple code signing and notarization.
 
 ## Use your project data
 
