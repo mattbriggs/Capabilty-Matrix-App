@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#yaml-format" class="md-skip">
+        <a href="#yaml-format-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -310,6 +310,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#document-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document shape
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-and-settings-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document and settings fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#capability-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -321,10 +343,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation-rules" class="md-nav__link">
+  <a href="#ownership-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation rules
+        Ownership and dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dita-planning-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DITA planning metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-and-import-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare and import a file
       
     </span>
   </a>
@@ -366,6 +421,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#document-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document shape
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-and-settings-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document and settings fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#capability-fields" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -377,10 +454,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation-rules" class="md-nav__link">
+  <a href="#ownership-and-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation rules
+        Ownership and dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dita-planning-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DITA planning metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation behavior
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-and-import-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare and import a file
       
     </span>
   </a>
@@ -404,127 +514,215 @@
 
 
 
-<h1 id="yaml-format">YAML format<a class="headerlink" href="#yaml-format" title="Permanent link">&para;</a></h1>
-<p>YAML is the canonical capability document. The app accepts a top-level object containing a nonempty <code>capabilities</code> array. It also supports a bare array of capability records. Exported files use the versioned object shape:</p>
+<h1 id="yaml-format-reference">YAML format reference<a class="headerlink" href="#yaml-format-reference" title="Permanent link">&para;</a></h1>
+<p>YAML is the canonical capability document used by the Capability and Ownership Matrix. This reference describes the recommended exported document, field meanings, and the differences between browser and desktop validation; use it with the <a href="../guide/">analyst user guide</a> when preparing or reviewing project data.</p>
+<h2 id="document-shape">Document shape<a class="headerlink" href="#document-shape" title="Permanent link">&para;</a></h2>
+<p>The recommended document is a YAML object with <code>version</code>, <code>settings</code>, and a nonempty <code>capabilities</code> list. The importer also accepts a bare list of capability records, but a bare list cannot preserve project settings when exported.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">settings</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ownerLabels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">appliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Appliance</span>
+<span class="w">    </span><span class="nt">federated</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Federated</span>
+<span class="w">  </span><span class="nt">timeline</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">granularity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quarter</span>
+<span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-01</span>
+<span class="w">    </span><span class="nt">periods</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9</span>
+<span class="w">    </span><span class="nt">asOf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-01</span>
+<span class="w">  </span><span class="nt">audiences</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client</span>
+<span class="w">      </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Client</span>
+<span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Uses and funds the capability</span>
+<span class="w">      </span><span class="nt">need</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Clear outcomes and a dependable operating experience.</span>
 <span class="nt">capabilities</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contextual-guidance</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Contextual guidance</span>
+<span class="w">    </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Relevant guidance at the point of need.</span>
 <span class="w">    </span><span class="nt">current</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <span class="w">    </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">appliance</span>
 <span class="w">    </span><span class="nt">futureOwner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">federated</span>
-<span class="w">    </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guidance at the point of need.</span>
-<span class="w">    </span><span class="nt">decision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Define the ownership handoff.</span>
+<span class="w">    </span><span class="nt">handoffDate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2028-10-01</span>
+<span class="w">    </span><span class="nt">decision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Agree on the handoff to a shared content service.</span>
 <span class="w">    </span><span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment-metadata</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content-service</span>
+<span class="w">    </span><span class="nt">levels</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Emerging</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Explore the need.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Initial</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Describe the capability.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Defined</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Define the model.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Managed</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Operate a first version.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measured</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measure outcomes.</span>
+<span class="w">    </span><span class="nt">milestones</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2027-10-01</span>
+<span class="w">        </span><span class="nt">maturity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
 <span class="w">    </span><span class="nt">dita</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">audience</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">consultant</span>
+<span class="w">      </span><span class="nt">audience</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">client</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">consultant</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">maturity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phase-3</span>
 <span class="w">      </span><span class="nt">ownership</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">appliance-native</span>
 </code></pre></div>
-<p>See the full <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">bundled sample</a> for additional records and dependencies.</p>
+<p>The bundled <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">capabilities.yaml</a> contains six illustrative capabilities and project settings. Its capability facts, IDs, maturity values, dependencies, audience wording, and DITA metadata are examples, not an approved project model.</p>
+<h2 id="document-and-settings-fields">Document and settings fields<a class="headerlink" href="#document-and-settings-fields" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required in source</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>version</code></td>
+<td>Recommended</td>
+<td>Exported as <code>1</code>. The current importer does not reject an unsupported or missing version; version migration is not implemented.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>Optional</td>
+<td>Project-wide owner labels, audience perspectives, and timeline. Missing settings are replaced with defaults.</td>
+</tr>
+<tr>
+<td><code>settings.ownerLabels.appliance</code></td>
+<td>Optional</td>
+<td>Display label for owner ID <code>appliance</code>; defaults to <code>Appliance</code>.</td>
+</tr>
+<tr>
+<td><code>settings.ownerLabels.federated</code></td>
+<td>Optional</td>
+<td>Display label for owner ID <code>federated</code>; defaults to <code>Federated</code>.</td>
+</tr>
+<tr>
+<td><code>settings.audiences</code></td>
+<td>Optional</td>
+<td>List of audience perspectives. Each item has <code>id</code>, <code>label</code>, <code>description</code>, and <code>need</code>. If omitted, the five built-in perspectives are used.</td>
+</tr>
+<tr>
+<td><code>settings.timeline.granularity</code></td>
+<td>Optional</td>
+<td>Period unit: <code>month</code>, <code>quarter</code>, <code>biannual</code>, or <code>year</code>. The default is <code>quarter</code>.</td>
+</tr>
+<tr>
+<td><code>settings.timeline.start</code></td>
+<td>Optional</td>
+<td>ISO date (<code>YYYY-MM-DD</code>) for the first period; defaults to <code>2026-10-01</code>.</td>
+</tr>
+<tr>
+<td><code>settings.timeline.periods</code></td>
+<td>Optional</td>
+<td>Number of periods, from 2 through 60; defaults to 9.</td>
+</tr>
+<tr>
+<td><code>settings.timeline.asOf</code></td>
+<td>Optional</td>
+<td>ISO date that anchors each capability’s <code>current</code> maturity; defaults to the timeline start.</td>
+</tr>
+</tbody>
+</table>
+<p>Audience IDs should be stable, nonempty identifiers, and the label, role description, and need should be understandable to the planning group. The built-in IDs are <code>client</code>, <code>consultant</code>, <code>product-team</code>, <code>leadership</code>, and <code>wider-domain</code>; custom IDs can be used, but some Journey audience-impact text is illustrative for the built-in set.</p>
+<p>Timeline dates should be valid calendar dates in ISO form. The <code>start</code> date, granularity, and period count define the timeline; changing the granularity changes the period labels and span, while milestone dates remain ISO dates.</p>
 <h2 id="capability-fields">Capability fields<a class="headerlink" href="#capability-fields" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Required</th>
-<th>Meaning</th>
+<th>Required in source</th>
+<th>Meaning and guidance</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>id</code></td>
 <td>Yes</td>
-<td>Unique, nonempty identifier. Other capabilities use it for dependencies. Keep it stable when renaming a capability.</td>
+<td>Unique, nonempty, stable identifier. Other records refer to it from <code>dependencies</code>. Avoid changing it when only the display name changes.</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td>Yes</td>
-<td>Nonempty display name.</td>
+<td>Nonempty display name for the capability.</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>Recommended</td>
+<td>Short description of the ability or outcome; defaults to an empty string when omitted.</td>
 </tr>
 <tr>
 <td><code>current</code></td>
 <td>Yes</td>
-<td>Nonnegative numeric current maturity.</td>
+<td>Nonnegative numeric maturity value. It is anchored at <code>settings.timeline.asOf</code>.</td>
 </tr>
 <tr>
 <td><code>target</code></td>
 <td>Yes</td>
-<td>Nonnegative numeric target maturity. It must be at least <code>current</code>.</td>
+<td>Nonnegative numeric maturity value planned for the final timeline period. Desktop validation requires it to be at least <code>current</code>.</td>
 </tr>
 <tr>
 <td><code>owner</code></td>
 <td>Yes</td>
-<td>Current owner: <code>appliance</code> or <code>federated</code>.</td>
+<td>Current owner ID: <code>appliance</code> or <code>federated</code>.</td>
 </tr>
 <tr>
 <td><code>futureOwner</code></td>
 <td>Yes</td>
-<td>Planned owner: <code>appliance</code> or <code>federated</code>.</td>
+<td>Planned owner ID: <code>appliance</code> or <code>federated</code>.</td>
 </tr>
 <tr>
-<td><code>summary</code></td>
-<td>No</td>
-<td>Short description for the capability.</td>
+<td><code>handoffDate</code></td>
+<td>Optional</td>
+<td>ISO date when the future owner takes responsibility. If omitted, the owner changes at the last timeline period.</td>
 </tr>
 <tr>
 <td><code>decision</code></td>
-<td>No</td>
-<td>Scope, ownership, or planning decision.</td>
+<td>Recommended</td>
+<td>Scope, ownership, or planning rationale to discuss with stakeholders; defaults to an empty string.</td>
 </tr>
 <tr>
 <td><code>dependencies</code></td>
-<td>No</td>
-<td>List of other capability IDs. Use <code>[]</code> when there are none.</td>
+<td>Recommended</td>
+<td>List of IDs of other capabilities this capability relies on. Use <code>[]</code> for none.</td>
+</tr>
+<tr>
+<td><code>levels</code></td>
+<td>Recommended</td>
+<td>Ordered maturity-level definitions for this capability; each item has a nonempty <code>name</code> and optional <code>description</code>.</td>
+</tr>
+<tr>
+<td><code>milestones</code></td>
+<td>Optional</td>
+<td>Dated maturity points between or outside the current and target anchors; each item has an ISO <code>date</code> and numeric <code>maturity</code>.</td>
 </tr>
 <tr>
 <td><code>dita</code></td>
-<td>No</td>
-<td>Proposed content metadata; fields are planning values only.</td>
+<td>Optional</td>
+<td>Proposed DITA/content metadata. Values are planning notes, not validated publishing configuration.</td>
 </tr>
 </tbody>
 </table>
-<p>Maturity is nonnegative and can extend beyond 8 for a wider-domain horizon. The current validator does not impose a maximum. Audience identifiers used by the app are <code>client</code>, <code>consultant</code>, <code>product-team</code>, <code>leadership</code>, and <code>wider-domain</code>.</p>
-<p>The optional <code>dita</code> object can contain:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Example</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>audience</code></td>
-<td><code>[client, consultant]</code></td>
-<td>Intended audience identifiers.</td>
-</tr>
-<tr>
-<td><code>maturity</code></td>
-<td><code>phase-3</code></td>
-<td>Proposed maturity tag.</td>
-</tr>
-<tr>
-<td><code>ownership</code></td>
-<td><code>appliance-native</code></td>
-<td>Proposed ownership tag.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="validation-rules">Validation rules<a class="headerlink" href="#validation-rules" title="Permanent link">&para;</a></h2>
-<ul>
-<li>The capability list must contain at least one record.</li>
-<li>Each record must be an object with a unique, nonempty <code>id</code> and a nonempty <code>name</code>.</li>
-<li><code>current</code> and <code>target</code> must be numeric and nonnegative; <code>target</code> must not be lower than <code>current</code>.</li>
-<li><code>owner</code> and <code>futureOwner</code> must each be <code>appliance</code> or <code>federated</code>.</li>
-<li><code>dependencies</code> must be a list of IDs that exist in the same file. A capability cannot depend on itself.</li>
-</ul>
-<p>The app checks basic record structure and numeric fields. In the desktop app, the Python sidecar additionally checks owner values and dependency references. The browser preview does not run the sidecar: it does not verify dependency IDs, and unrecognized or missing owner values default to <code>appliance</code>. For consistent results, provide every field shown in the example and use the values in this reference rather than relying on importer defaults.</p>
+<p>Maturity values are numeric and correspond to positions in the capability’s ordered <code>levels</code> list, starting at zero. The editor supports at least two levels and up to twenty levels. Desktop validation checks that <code>current</code>, <code>target</code>, and milestone maturity values do not exceed the highest level, and it checks that <code>target</code> is not below <code>current</code>; use whole numbers that match the ordered levels.</p>
+<p>If <code>levels</code> is omitted or empty, the application supplies default maturity-level names and descriptions. Explicit level definitions are recommended for project data because they make the rubric portable and visible in exported YAML.</p>
+<p>The model estimates maturity at selected dates by interpolating between the <code>asOf</code> current value, dated milestones, and the target at the end of the timeline. The selected Current and Focus periods are view controls; they do not overwrite these stored anchors.</p>
+<h2 id="ownership-and-dependencies">Ownership and dependencies<a class="headerlink" href="#ownership-and-dependencies" title="Permanent link">&para;</a></h2>
+<p>Ownership uses fixed IDs and editable labels. Use <code>appliance</code> for the product-side owner and <code>federated</code> for the wider-environment owner; changing the display labels in settings does not change those IDs.</p>
+<p>Each dependency must refer to a capability ID in the same document. A record cannot depend on itself, and desktop validation rejects missing dependency IDs; the validator does not check dependency cycles or determine whether an upstream capability is ready.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["deployment-metadata"] --&gt;|"prerequisite for"| B["content-service"]
+    B --&gt;|"prerequisite for"| C["contextual-guidance"]</code></pre>
+<p>In the YAML, the dependent record contains the IDs of its prerequisites. For example, <code>contextual-guidance</code> lists <code>content-service</code> in its own <code>dependencies</code> array, while the diagram draws the arrow from the prerequisite to the dependent capability.</p>
+<h2 id="dita-planning-metadata">DITA planning metadata<a class="headerlink" href="#dita-planning-metadata" title="Permanent link">&para;</a></h2>
+<p>The optional <code>dita</code> value is an object for proposed content annotations. The bundled example uses <code>audience</code>, <code>maturity</code>, and <code>ownership</code>, but the current app does not validate those values against a DITA content model.</p>
+<p>Do not treat these fields as approved DITA attributes, production DITAVAL filters, or a validated CCMS configuration. The tool does not call the CCMS, deploy embedded content, or generate PDF manuals; validate all proposed mappings with the content team before using them in a publishing workflow.</p>
+<h2 id="validation-behavior">Validation behavior<a class="headerlink" href="#validation-behavior" title="Permanent link">&para;</a></h2>
+<p>The React importer requires a nonempty capability list, unique nonempty IDs, nonempty names, and nonnegative numeric current and target values. It normalizes omitted optional fields and unknown owner IDs; do not rely on those defaults for project data.</p>
+<p>In the Tauri desktop app, the Python sidecar additionally checks that targets are not below current values, levels contain at least two named entries, maturity values fit the level list, owner IDs are valid, and dependencies refer to existing IDs without self-reference. However, the React importer normalizes missing or unrecognized owner values to <code>appliance</code> before the sidecar receives them, so an owner typo may not be reported as an error. Supply <code>appliance</code> or <code>federated</code> explicitly. A failed import or edit is reported and the active document remains unchanged.</p>
+<p>The browser preview does not run the sidecar and does not provide equivalent cross-record validation. It does not reject a target below current maturity or a missing dependency reference, and it normalizes unknown owner IDs to <code>appliance</code>; these values can produce misleading planning data. Validate the YAML in the desktop app before using the browser preview for planning.</p>
+<p>The current importer does not enforce the <code>version</code> value, reject dependency cycles, verify that audience IDs in DITA metadata exist in settings, or validate DITA attributes. Treat these as analyst review responsibilities.</p>
+<h2 id="prepare-and-import-a-file">Prepare and import a file<a class="headerlink" href="#prepare-and-import-a-file" title="Permanent link">&para;</a></h2>
+<p>Create a project copy of the sample, replace all illustrative records, preserve stable IDs, and check every dependency after editing or removing capabilities. Keep the project’s maturity rubric and audience descriptions alongside the YAML so reviewers can understand the values rather than infer their meaning from the chart.</p>
+<p>Save the file with a <code>.yaml</code> or <code>.yml</code> extension, then choose <strong>Import YAML</strong> in the application. Desktop validation is recommended before the first planning review; after changes in either runtime, choose <strong>Export YAML</strong> to create <code>capability-ownership.yaml</code> and keep that exported version in the project’s approved document store.</p>
 
 
 

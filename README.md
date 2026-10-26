@@ -5,38 +5,33 @@
 [![Open issues](https://img.shields.io/github/issues/mattbriggs/Capabilty-Matrix-App?style=flat)](https://github.com/mattbriggs/Capabilty-Matrix-App/issues)
 [![Last commit](https://img.shields.io/github/last-commit/mattbriggs/Capabilty-Matrix-App?style=flat)](https://github.com/mattbriggs/Capabilty-Matrix-App/commits)
 
-## What this app is for
+The Capability and Ownership Matrix is a strategic planning workspace for defining capabilities, assessing their maturity, mapping dependencies, and making product-boundary and ownership decisions. Analysts curate the capability data in YAML, then use three linked views to test and communicate a plan across client, consultant, product-team, leadership, and wider-domain perspectives.
 
-The Capability and Ownership Matrix is a planning workspace for teams deciding **what capabilities a product or service needs, how mature those capabilities are today, and where they should belong in the future**.
+The tool supports planning; it is not a system of record for operational facts. The bundled example is illustrative and must be replaced with project-validated data. The Content mapping panel captures proposed DITA metadata only. CCMS deployment and PDF manual generation are future integration targets, not current features.
 
-It helps make product and domain boundaries visible. Teams can compare current and planned maturity, see dependencies, and discuss whether a capability should remain part of an appliance or move to a shared, federated service. Audience perspectives help frame those decisions for clients, consultants, product teams, leadership, and the wider domain.
+## Features
 
-The app is a planning and visualization tool, not a source of authoritative organizational facts. The bundled data is an illustrative example; replace it with your own project capability document.
+- **Matrix:** compare maturity and capability reach across audience perspectives.
+- **Capability journey:** inspect maturity levels, timeline milestones, ownership, and dependencies for one capability.
+- **Federated domain map:** trace dependency relationships and discuss the product/federated responsibility boundary.
+- **Shared planning context:** the selected capability and audience remain selected across views. A **Current** reference period and a **Focus** comparison period can be set to any period on the timeline.
+- **Editable planning data:** edit capability descriptions, ownership, handoff period, maturity levels, milestones, dependencies, audience perspectives, owner labels, and timeline settings.
+- **Portable YAML:** import a project document and export the active data. The desktop app also saves successful imports and edits to its app data directory; the browser preview does not auto-save.
+- **Print:** print the active view for a planning discussion.
 
-## What you can do
+See the [full analyst user guide](site/guide.md) for the end-to-end process, screen-by-screen instructions, and planning workflow. Use the [YAML format reference](site/yaml-format.md) to create or check an import file.
 
-- Explore capabilities in three linked views:
-  - **Matrix:** compare capability maturity across audience perspectives.
-  - **Capability journey:** examine one capability's current and target maturity, dependencies, and ownership.
-  - **Federated domain map:** explore capability relationships and appliance/federated boundaries.
-- Keep the selected capability, audience perspective, and current/future state in context while navigating between views.
-- Import a project YAML file, edit capability records, and export the updated YAML.
-- Print the active view for discussion or planning.
-- Review proposed DITA audience, maturity, and ownership metadata.
-
-YAML is the canonical capability document. Browser edits stay in memory until exported. The desktop app also saves imported and edited YAML in its application data directory. The DITA panel is a planning aid only; it does not validate Heretto mappings or publish content.
-
-## Get started
+## Run the application
 
 ### Requirements
 
-- Node.js and npm for the web app.
-- Python 3.10 or later and `venv` for the sidecar build and documentation site.
-- Rust and the platform prerequisites required by [Tauri 2](https://v2.tauri.app/start/prerequisites/) to run or package the desktop app.
+- Node.js and npm for the web preview.
+- Python 3.10 or later for the sidecar build and documentation commands.
+- Rust and the platform prerequisites required by [Tauri 2](https://v2.tauri.app/start/prerequisites/) for the desktop app.
 
-### Install
+### Install dependencies
 
-From the repository root:
+From the repository root, install the JavaScript dependencies and create the Python environment used by the sidecar and docs:
 
 ```bash
 npm install
@@ -44,83 +39,64 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
 
-On Windows, use `.venv\Scripts\python.exe` instead of `.venv/bin/python`.
+On Windows, use `.venv\Scripts\python.exe` in place of `.venv/bin/python`.
 
-### Run the web preview
+### Start the browser preview
+
+Start Vite and open the local URL it reports:
 
 ```bash
 npm run dev
 ```
 
-Open the local URL printed by Vite. The preview provides the app's core views and YAML workflows. It does not save changes automatically, so export your YAML before closing or refreshing.
+The browser preview loads the bundled sample on startup. Import your own `.yaml` or `.yml` file to work with project data. Changes are held in memory until you export the YAML, so export before refreshing or closing the tab.
 
-### Run the desktop app during development
+### Start the desktop app
 
-Build the Python sidecar, then start the Tauri desktop shell:
+Build the Python sidecar for the current operating system and architecture, then launch the Tauri development app:
 
 ```bash
 npm run sidecar:build
 npm run tauri dev
 ```
 
-The sidecar build uses the repository's `.venv` and creates a native executable under `src-tauri/binaries/`. Build it on each target operating system and architecture before packaging.
+The desktop app loads a saved `capabilities.yaml` from its Tauri application data directory when one exists; otherwise, it starts from the bundled sample. Successful imports and edits are validated by the sidecar and saved to that file. Build the sidecar separately on each target platform and architecture before packaging.
 
-### Build and launch the macOS app
+### Package the macOS app
 
-Run these commands from the repository root on a Mac. The sidecar must be built for the Mac's architecture (Apple Silicon or Intel) before packaging:
+On a Mac, build the sidecar and package the application:
 
 ```bash
 npm run sidecar:build
 npm run tauri build
 ```
 
-Tauri builds the app bundle in `src-tauri/target/release/bundle/macos/` and, with the configured `all` bundle targets, a disk image in `src-tauri/target/release/bundle/dmg/`. Launch the built app from Terminal with:
-
-```bash
-open "src-tauri/target/release/bundle/macos/Capability and Ownership Matrix.app"
-```
-
-You can also open the `.app` in Finder or install it by opening the generated `.dmg` and dragging the app into Applications. The desktop app loads and saves `capabilities.yaml` in its Tauri application data directory.
-
-For a development build that opens the desktop window while Vite is running, use `npm run tauri dev` instead. The release `.app` is a local build; distributing it to other users may require Apple code signing and notarization.
-
-## Use your project data
-
-1. **Prepare a YAML file.** Start with [`src/data/capabilities.yaml`](src/data/capabilities.yaml) and save a project-specific copy. Give each capability a unique ID, name, current and target maturity, current and future owner, and any dependencies.
-2. **Import it.** In the app, choose **Import YAML** and select the `.yaml` or `.yml` file. A successful import replaces the active capability set.
-3. **Explore and edit.** Select a capability, choose an audience perspective, and switch between current and future state. Use **Edit capability** to update a record; the views stay linked to the same data.
-4. **Export your work.** Choose **Export YAML** to download a portable copy. Browser changes are not persisted unless exported. In the desktop app, a successful import or edit also updates the app's saved YAML.
-
-The desktop Python sidecar checks capability relationships such as dependency references and owner values. The browser preview performs basic record and maturity checks but does not run the sidecar, so use the documented YAML values and ensure all dependency IDs exist in the file.
-
-See the [user guide](site/guide.md) for additional workflow details and the [YAML format reference](site/yaml-format.md) for fields and validation rules.
+The app bundle is created under `src-tauri/target/release/bundle/macos/`. With the configured `all` bundle targets, the disk image is under `src-tauri/target/release/bundle/dmg/`. This is a local build; distribution may require Apple code signing and notarization.
 
 ## Build and preview the documentation
 
-The documentation uses MkDocs Material with Mermaid diagrams. Markdown source files live in [`site/`](site/); the generated static HTML goes to `docs/`.
+Markdown documentation is authored in [`site/`](site/), with MkDocs configuration in [`mkdocs.yml`](mkdocs.yml). The static site is generated into `docs/`:
 
 ```bash
 .venv/bin/mkdocs serve
-```
-
-To build the static documentation:
-
-```bash
 .venv/bin/mkdocs build
 ```
+
+The guide uses Mermaid diagrams to explain the analyst workflow, YAML model, and screen layouts.
 
 ## Project layout
 
 | Path | Purpose |
 | --- | --- |
-| `src/` | React app, shared views, YAML model, and bundled example |
-| `sidecar/main.py` | Python validation and draft content/report manifest processor |
-| `src-tauri/` | Tauri desktop shell, persistence, and sidecar integration |
-| `pyproject.toml` | Python project metadata and optional tool groups |
-| `requirements.txt` | Python sidecar build and documentation dependencies |
-| `mkdocs.yml` | MkDocs configuration; source is `site/`, output is `docs/` |
-| `site/` | Markdown documentation |
+| [`src/`](src/) | React app, linked views, YAML model, and bundled example |
+| [`src/data/capabilities.yaml`](src/data/capabilities.yaml) | Illustrative, versioned YAML document |
+| [`sidecar/main.py`](sidecar/main.py) | Desktop validation and draft content/report manifest processor |
+| [`src-tauri/`](src-tauri/) | Tauri desktop shell, persistence, printing, and sidecar integration |
+| [`site/`](site/) | Markdown source for the user guide and data reference |
+| [`mkdocs.yml`](mkdocs.yml) | MkDocs site configuration |
 
-## Current scope
+## Current scope and limitations
 
-The app records capability planning data and proposed DITA metadata. It does not publish to the CCMS, generate production DITAVAL files, or create PDF manuals. CCMS deployment (Deploy API) and PDF Gen are future integration targets; any content mappings should be validated against the eventual DITA content model before use.
+YAML is the canonical capability document. The app provides a guided editor for existing capability records, but it does not create or delete capability records in the GUI; prepare those records in YAML before import. Browser import normalizes basic record values but does not run the desktop sidecar's complete relationship validation. The importer also normalizes missing or unrecognized owner values to `appliance`, so supply `appliance` or `federated` explicitly rather than relying on the validator to reject a typo.
+
+The tool does not retrieve source data automatically, publish to a CCMS, validate a production DITA configuration, generate DITAVAL files, or create PDF manuals. CCMS deployment and PDF generation remain future integration work. Validate proposed content mappings with the content team before using them in a publishing workflow.
