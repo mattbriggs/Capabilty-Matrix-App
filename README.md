@@ -73,6 +73,12 @@ npm run tauri build
 
 The app bundle is created under `src-tauri/target/release/bundle/macos/`. With the configured `all` bundle targets, the disk image is under `src-tauri/target/release/bundle/dmg/`. This is a local build; distribution may require Apple code signing and notarization.
 
+From the repository root in Bash, launch the built macOS app with:
+
+```bash
+open "src-tauri/target/release/bundle/macos/Capability and Ownership Matrix.app"
+```
+
 ## Build and preview the documentation
 
 Markdown documentation is authored in [`site/`](site/), with MkDocs configuration in [`mkdocs.yml`](mkdocs.yml). The static site is generated into `docs/`:
