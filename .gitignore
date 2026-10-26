@@ -15,4 +15,7 @@ ENV/
 /.pyinstaller-config/
 /.sidecar-build/
 
+# Rust / Tauri build output
+/src-tauri/target/
+
 .DS_Store
