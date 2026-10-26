@@ -13,5 +13,10 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - The user chose all three concept views: Matrix, Capability Journey, and Federated Domain Map. They must stay navigable as one product with shared selected capability, audience perspective, and current/future state.
 - Use React for the desktop UI, Tauri 2 for the native shell, and a Python sidecar for model validation and future content/report processing.
 - YAML is the canonical capability document. The bundled sample is `src/data/capabilities.yaml`; the Tauri shell stores edits as `capabilities.yaml` in its app data directory. The browser preview can import and export YAML but does not auto-save edits.
-- The DITA metadata panel records proposed mappings only. Do not present those mappings as a validated Heretto configuration. Embedded content via Heretto Deploy API and PDF manuals via Heretto PDF Gen are future integration targets.
+- The DITA metadata panel records proposed mappings only. Do not present those mappings as a validated CCMS configuration. Embedded content via the CCMS Deploy API and PDF manuals via CCMS PDF Gen are future integration targets.
 - Maturity 8+ is an extensible wider-domain horizon. Audience perspectives include client, consultant, product team, leadership, and wider domain.
+- Use "CCMS" (not "Heretto") in user-facing text for the content management system.
+- Owner names (default "Appliance" and "Federated") and audience perspectives are user-editable in Settings and stored under `settings` in the YAML. Owner ids stay `appliance`/`federated`.
+- State is a timeline, not a current/future toggle. A **Current** period is the reference point and a **Focus** period is the point compared against it (past or future). The timeline granularity is month, quarter, biannual or year; dates are stored as ISO strings so milestones survive granularity changes. `current` maturity is anchored at `settings.timeline.asOf`, `target` at the last period, with optional per-capability `milestones` between.
+- Maturity levels (name and description) and dependencies are editable per capability; the target is set from a level in the journey view or in the editor.
+- Print report uses the Tauri `print_page` command in the desktop app (`window.print()` is a no-op in WKWebView) and falls back to `window.print()` in the browser.

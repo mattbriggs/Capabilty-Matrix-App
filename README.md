@@ -123,4 +123,4 @@ To build the static documentation:
 
 ## Current scope
 
-The app records capability planning data and proposed DITA metadata. It does not publish to Heretto, generate production DITAVAL files, or create PDF manuals. Heretto Deploy API and PDF Gen are future integration targets; any content mappings should be validated against the eventual DITA content model before use.
+The app records capability planning data and proposed DITA metadata. It does not publish to the CCMS, generate production DITAVAL files, or create PDF manuals. CCMS deployment (Deploy API) and PDF Gen are future integration targets; any content mappings should be validated against the eventual DITA content model before use.

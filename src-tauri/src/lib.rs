@@ -20,6 +20,12 @@ fn save_yaml(app: tauri::AppHandle, yaml_text: String) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn print_page(app: tauri::AppHandle) -> Result<(), String> {
+    let window = app.get_webview_window("main").ok_or("Main window not found")?;
+    window.print().map_err(|error| error.to_string())
+}
+
+#[tauri::command]
 async fn process_data(
     app: tauri::AppHandle,
     operation: String,
@@ -60,7 +66,7 @@ async fn process_data(
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![process_data, load_yaml, save_yaml])
+        .invoke_handler(tauri::generate_handler![process_data, load_yaml, save_yaml, print_page])
         .run(tauri::generate_context!())
         .expect("error while running Capability and Ownership Matrix");
 }

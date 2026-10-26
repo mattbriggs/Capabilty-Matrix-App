@@ -52,7 +52,7 @@ Choose **Export YAML** to download the current capability set as `capability-own
 - Choose a capability and audience perspective in the header.
 - Switch between **Current** and **Future** to compare the current record with its target maturity and future ownership.
 - Select **Print report** to print the active view.
-- Select **Content mapping** to inspect proposed DITA metadata. This is planning information only, not a validated Heretto configuration.
+- Select **Content mapping** to inspect proposed DITA metadata. This is planning information only, not a validated CCMS configuration.
 
 ## Build the documentation
 

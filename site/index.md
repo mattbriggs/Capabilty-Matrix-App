@@ -27,4 +27,4 @@ flowchart LR
 The app's bundled sample is [`src/data/capabilities.yaml`](https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml). Its content is illustrative. Read the [user guide](guide.md) to configure a project and use the import/export workflow, or the [YAML format reference](yaml-format.md) to prepare a file.
 
 !!! note "Content integration status"
-    The DITA panel records proposed mappings only. It does not validate a Heretto configuration or publish embedded content or PDF manuals.
+    The DITA panel records proposed mappings only. It does not validate a CCMS configuration or publish embedded content or PDF manuals.

@@ -3,11 +3,26 @@
 
 The React app parses YAML into a canonical JSON model. This sidecar validates
 cross-record relationships and prepares content/report manifests. It does not
-publish to Heretto or generate a production DITAVAL.
+publish to the CCMS or generate a production DITAVAL.
 """
 
 import json
 import sys
+
+
+def validate_levels(ident, cap, current, target):
+    levels = cap.get("levels")
+    if levels is None:
+        return []
+    if not isinstance(levels, list) or len(levels) < 2:
+        return [f"{ident} needs at least two maturity levels."]
+    if any(not isinstance(level, dict) or not str(level.get("name", "")).strip() for level in levels):
+        return [f"{ident} has a maturity level without a name."]
+    top = len(levels) - 1
+    values = [current, target] + [m.get("maturity") for m in cap.get("milestones", []) if isinstance(m, dict)]
+    if any(isinstance(v, (int, float)) and v > top for v in values):
+        return [f"{ident} has maturity above its highest level (M{top})."]
+    return []
 
 
 def validate(capabilities):
@@ -33,6 +48,7 @@ def validate(capabilities):
             errors.append(f"{ident} needs numeric current and target maturity.")
         elif current < 0 or target < current:
             errors.append(f"{ident} has an invalid maturity range.")
+        errors.extend(validate_levels(ident, cap, current, target))
         for field in ("owner", "futureOwner"):
             if cap.get(field) not in ("appliance", "federated"):
                 errors.append(f"{ident} has an invalid {field}.")

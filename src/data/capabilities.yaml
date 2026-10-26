@@ -1,4 +1,34 @@
 version: 1
+settings:
+  ownerLabels:
+    appliance: Appliance
+    federated: Federated
+  timeline:
+    granularity: quarter
+    start: 2026-10-01
+    periods: 9
+    asOf: 2026-10-01
+  audiences:
+    - id: client
+      label: Client
+      description: Uses and funds the capability
+      need: Clear outcomes, usable guidance and a dependable operating experience.
+    - id: consultant
+      label: Consultant
+      description: Advises, designs and enables
+      need: Practical guidance for tailoring the product to a client context.
+    - id: product-team
+      label: Product team
+      description: Builds and operates the product
+      need: A clear product boundary, data contract and implementation ownership.
+    - id: leadership
+      label: Leadership
+      description: Sets direction and allocates resources
+      need: A defensible scope decision with visible dependencies and risk.
+    - id: wider-domain
+      label: Wider domain
+      description: Extends value across the ecosystem
+      need: How local capabilities contribute to the evolving domain solution.
 capabilities:
   - id: contextual-guidance
     name: Contextual guidance
