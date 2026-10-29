@@ -1,13 +1,14 @@
-version: 1
+version: 2
+project:
+  id: sample-capability-ownership
+  name: Capability and ownership sample
+  description: Sample project bundled with the app. Create or import a project to record your own data.
+  createdAt: 2026-10-29T00:00:00Z
+  updatedAt: 2026-10-29T00:00:00Z
 settings:
   ownerLabels:
     appliance: Appliance
     federated: Federated
-  timeline:
-    granularity: quarter
-    start: 2026-10-01
-    periods: 9
-    asOf: 2026-10-01
   audiences:
     - id: client
       label: Client
@@ -29,19 +30,60 @@ settings:
       label: Wider domain
       description: Extends value across the ecosystem
       need: How local capabilities contribute to the evolving domain solution.
+  timeline:
+    granularity: quarter
+    start: 2026-10-01
+    periods: 9
+    asOf: 2026-10-01
 capabilities:
   - id: contextual-guidance
     name: Contextual guidance
-    current: 3
-    target: 5
+    summary: Relevant, in-device and external guidance at the point of need.
+    decision: Define the handoff from product-owned guidance to a federated content service.
     owner: appliance
     futureOwner: federated
-    summary: Relevant, in-device and external guidance at the point of need.
-    decision: Define the handoff from product-owned guidance to a federated content
-      service.
+    current: 3
+    target: 5
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Ad hoc content with no shared approach.
+      - id: initial
+        name: Initial
+        description: Basic in-app help and FAQs.
+      - id: defined
+        name: Defined
+        description: Consistent topics and terminology.
+      - id: managed
+        name: Managed
+        description: Product-owned guidance delivered in device.
+      - id: measured
+        name: Measured
+        description: Contextual, task-based guidance.
+      - id: optimized
+        name: Optimized
+        description: Shared guidance across products.
+      - id: scaled
+        name: Scaled
+        description: Partners and clients integrated.
+      - id: extended
+        name: Extended
+        description: Guidance across workflows and channels.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continuing wider-domain evolution.
     dependencies:
       - deployment-metadata
       - content-service
+    domainId: guidance
+    audienceIds:
+      - client
+      - consultant
+    definition:
+      purpose: Give people relevant guidance at the point of need, in the device and beyond it.
+      scope: In-device help, contextual task guidance and links to external guidance.
+      exclusions: Authoring tools and the CCMS itself.
+      notes: Sample definition. Replace with your recorded project evidence.
     dita:
       audience:
         - client
@@ -50,13 +92,44 @@ capabilities:
       ownership: appliance-native
   - id: deployment-metadata
     name: Deployment metadata
-    current: 3
-    target: 5
-    owner: appliance
-    futureOwner: appliance
     summary: Structured product, task and deployment context for downstream services.
     decision: Agree on a stable metadata contract before expanding content delivery.
-    dependencies: []
+    owner: appliance
+    futureOwner: appliance
+    current: 3
+    target: 5
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Explore the need.
+      - id: initial
+        name: Initial
+        description: Describe the capability.
+      - id: defined
+        name: Defined
+        description: Define the model.
+      - id: managed
+        name: Managed
+        description: Operate a first version.
+      - id: measured
+        name: Measured
+        description: Measure outcomes.
+      - id: optimized
+        name: Optimized
+        description: Optimize the handoff.
+      - id: scaled
+        name: Scaled
+        description: Scale to more contexts.
+      - id: extended
+        name: Extended
+        description: Connect across domains.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continue domain evolution.
+    domainId: platform-data
+    audienceIds:
+      - consultant
+      - product-team
     dita:
       audience:
         - consultant
@@ -65,14 +138,46 @@ capabilities:
       ownership: appliance-native
   - id: audit-trail
     name: Audit trail
-    current: 4
-    target: 6
-    owner: federated
-    futureOwner: federated
     summary: Evidence of actions and changes across the wider environment.
     decision: Assign event ownership and retention responsibilities across systems.
+    owner: federated
+    futureOwner: federated
+    current: 4
+    target: 6
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Explore the need.
+      - id: initial
+        name: Initial
+        description: Describe the capability.
+      - id: defined
+        name: Defined
+        description: Define the model.
+      - id: managed
+        name: Managed
+        description: Operate a first version.
+      - id: measured
+        name: Measured
+        description: Measure outcomes.
+      - id: optimized
+        name: Optimized
+        description: Optimize the handoff.
+      - id: scaled
+        name: Scaled
+        description: Scale to more contexts.
+      - id: extended
+        name: Extended
+        description: Connect across domains.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continue domain evolution.
     dependencies:
       - identity-service
+    domainId: platform-data
+    audienceIds:
+      - client
+      - leadership
     dita:
       audience:
         - client
@@ -81,13 +186,44 @@ capabilities:
       ownership: federated-infra
   - id: identity-service
     name: Identity service
-    current: 4
-    target: 6
-    owner: federated
-    futureOwner: federated
     summary: Shared identity and access context across the estate.
     decision: Clarify which system is authoritative for identity and permissions.
-    dependencies: []
+    owner: federated
+    futureOwner: federated
+    current: 4
+    target: 6
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Explore the need.
+      - id: initial
+        name: Initial
+        description: Describe the capability.
+      - id: defined
+        name: Defined
+        description: Define the model.
+      - id: managed
+        name: Managed
+        description: Operate a first version.
+      - id: measured
+        name: Measured
+        description: Measure outcomes.
+      - id: optimized
+        name: Optimized
+        description: Optimize the handoff.
+      - id: scaled
+        name: Scaled
+        description: Scale to more contexts.
+      - id: extended
+        name: Extended
+        description: Connect across domains.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continue domain evolution.
+    domainId: platform-data
+    audienceIds:
+      - product-team
+      - consultant
     dita:
       audience:
         - product-team
@@ -96,14 +232,46 @@ capabilities:
       ownership: federated-infra
   - id: content-service
     name: Content service
-    current: 2
-    target: 5
-    owner: federated
-    futureOwner: federated
     summary: Governed content served across products, channels and devices.
     decision: Map a single DITA content stock to embedded help and PDF manuals.
+    owner: federated
+    futureOwner: federated
+    current: 2
+    target: 5
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Explore the need.
+      - id: initial
+        name: Initial
+        description: Describe the capability.
+      - id: defined
+        name: Defined
+        description: Define the model.
+      - id: managed
+        name: Managed
+        description: Operate a first version.
+      - id: measured
+        name: Measured
+        description: Measure outcomes.
+      - id: optimized
+        name: Optimized
+        description: Optimize the handoff.
+      - id: scaled
+        name: Scaled
+        description: Scale to more contexts.
+      - id: extended
+        name: Extended
+        description: Connect across domains.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continue domain evolution.
     dependencies:
       - deployment-metadata
+    domainId: guidance
+    audienceIds:
+      - client
+      - consultant
     dita:
       audience:
         - client
@@ -112,18 +280,113 @@ capabilities:
       ownership: federated-infra
   - id: domain-insight
     name: Domain insight
-    current: 2
-    target: 5
-    owner: federated
-    futureOwner: federated
     summary: Cross-domain reporting, insight and optimization opportunities.
     decision: Identify useful signals without expanding the appliance boundary.
+    owner: federated
+    futureOwner: federated
+    current: 2
+    target: 5
+    levels:
+      - id: emerging
+        name: Emerging
+        description: Explore the need.
+      - id: initial
+        name: Initial
+        description: Describe the capability.
+      - id: defined
+        name: Defined
+        description: Define the model.
+      - id: managed
+        name: Managed
+        description: Operate a first version.
+      - id: measured
+        name: Measured
+        description: Measure outcomes.
+      - id: optimized
+        name: Optimized
+        description: Optimize the handoff.
+      - id: scaled
+        name: Scaled
+        description: Scale to more contexts.
+      - id: extended
+        name: Extended
+        description: Connect across domains.
+      - id: ecosystem
+        name: Ecosystem
+        description: Continue domain evolution.
     dependencies:
       - audit-trail
       - content-service
+    domainId: insight
+    audienceIds:
+      - leadership
+      - wider-domain
     dita:
       audience:
         - leadership
         - wider-domain
       maturity: phase-2
       ownership: federated-infra
+domains:
+  - id: guidance
+    name: Guidance and content
+    description: Help, guidance and governed content delivery.
+    color: "#dfeef0"
+  - id: platform-data
+    name: Platform data
+    description: Shared identity, metadata and evidence.
+    color: "#e2ecf7"
+  - id: insight
+    name: Domain insight
+    description: Cross-domain reporting and optimization.
+    color: "#f4dfe2"
+presentation:
+  defaultGuidance:
+    - audienceId: consultant
+      levelId: initial
+      text: Relies on local knowledge and experience.
+    - audienceId: consultant
+      levelId: managed
+      text: Clear implementation guidance is available.
+    - audienceId: consultant
+      levelId: optimized
+      text: Scenario-based guidance reduces time to value.
+    - audienceId: consultant
+      levelId: extended
+      text: Federated delivery supports reuse across clients.
+    - audienceId: client
+      levelId: initial
+      text: Little help at the point of need.
+    - audienceId: client
+      levelId: managed
+      text: In-device help covers common tasks.
+    - audienceId: client
+      levelId: optimized
+      text: Contextual guidance appears when needed.
+    - audienceId: client
+      levelId: extended
+      text: Help follows the workflow across channels.
+    - audienceId: product-team
+      levelId: initial
+      text: Content and decisions are hard to reuse.
+    - audienceId: product-team
+      levelId: managed
+      text: Product metadata and topic structure are defined.
+    - audienceId: product-team
+      levelId: optimized
+      text: A stable data contract supports dynamic guidance.
+    - audienceId: product-team
+      levelId: extended
+      text: Product metadata feeds the shared service.
+    - audienceId: leadership
+      levelId: initial
+      text: Scope is difficult to explain.
+    - audienceId: leadership
+      levelId: managed
+      text: Product value and boundaries become visible.
+    - audienceId: leadership
+      levelId: optimized
+      text: Handoff cost and responsibility can be planned.
+    - audienceId: leadership
+      levelId: extended
+      text: Wider-domain value can be assessed.

@@ -1,0 +1,255 @@
+{
+  "description": "Shared browser/Python validation contract. Each case applies `set` (dotted path → value; \"$delete\" removes the key) to `base`, or uses `document` verbatim, and expects the exact issue keys (path, code, severity, entityType, entityId). Messages are not compared.",
+  "base": {
+    "version": 2,
+    "project": { "id": "prj-fixture", "name": "Fixture", "description": "", "createdAt": "2026-10-29T00:00:00Z", "updatedAt": "2026-10-29T00:00:00Z" },
+    "settings": {
+      "ownerLabels": { "appliance": "Appliance", "federated": "Federated" },
+      "audiences": [
+        { "id": "client", "label": "Client" },
+        { "id": "consultant", "label": "Consultant" }
+      ],
+      "timeline": { "granularity": "quarter", "start": "2026-01-01", "periods": 5, "asOf": "2026-04-01" }
+    },
+    "capabilities": [
+      {
+        "id": "alpha", "name": "Alpha", "owner": "appliance", "futureOwner": "federated", "handoffDate": "2026-10-01",
+        "current": 0, "target": 2,
+        "levels": [{ "id": "l0", "name": "Zero" }, { "id": "l1", "name": "One" }, { "id": "l2", "name": "Two" }],
+        "milestones": [{ "date": "2026-07-01", "maturity": 1 }],
+        "dependencies": ["beta"], "domainId": "core", "audienceIds": ["client"],
+        "journey": { "guidance": [{ "audienceId": "client", "levelId": "l1", "text": "First help." }] }
+      },
+      {
+        "id": "beta", "name": "Beta", "owner": "federated", "futureOwner": "federated",
+        "current": 1, "target": 1,
+        "levels": [{ "id": "l0", "name": "Zero" }, { "id": "l1", "name": "One" }]
+      },
+      {
+        "id": "gamma", "name": "Gamma", "owner": "appliance", "futureOwner": "appliance",
+        "current": 0, "target": 0,
+        "levels": [{ "id": "l0", "name": "Zero" }, { "id": "l1", "name": "One" }]
+      }
+    ],
+    "domains": [{ "id": "core", "name": "Core", "color": "#dcefe9" }],
+    "presentation": { "defaultGuidance": [{ "audienceId": "consultant", "levelId": "l0", "text": "Default." }] },
+    "mapViews": [
+      {
+        "id": "main", "name": "Main", "viewport": { "x": 0, "y": 0, "zoom": 1 },
+        "placements": [{ "nodeId": "cap:alpha", "context": "appliance/core", "x": 10, "y": 20, "pinned": true }]
+      }
+    ],
+    "extensions": { "anything": { "goes": [1, 2, 3] } }
+  },
+  "cases": [
+    { "name": "valid base document", "set": {}, "expect": [] },
+    { "name": "empty collections are valid", "set": { "capabilities": [], "domains": [], "mapViews": [] }, "expect": [
+      { "path": "presentation.defaultGuidance.0.levelId", "code": "guidance.level.unused", "severity": "warning", "entityType": "presentation", "entityId": null }
+    ] },
+    { "name": "not an object", "document": [1, 2], "expect": [
+      { "path": "", "code": "document.type", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "missing version", "set": { "version": "$delete" }, "expect": [
+      { "path": "version", "code": "version.missing", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "version 1 requires migration", "set": { "version": 1 }, "expect": [
+      { "path": "version", "code": "version.migrationRequired", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "review: future version 999 is rejected, not dropped", "set": { "version": 999 }, "expect": [
+      { "path": "version", "code": "version.unsupported", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "string version is unsupported", "set": { "version": "2" }, "expect": [
+      { "path": "version", "code": "version.unsupported", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "boolean version is unsupported", "set": { "version": true }, "expect": [
+      { "path": "version", "code": "version.unsupported", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "review: owner typo is an error, not coerced", "set": { "capabilities.0.owner": "typo" }, "expect": [
+      { "path": "capabilities.0.owner", "code": "schema.enum", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "review: fractional maturity is an error", "set": { "capabilities.0.current": 1.5 }, "expect": [
+      { "path": "capabilities.0.current", "code": "schema.type", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "numeric string maturity is not coerced", "set": { "capabilities.0.current": "1" }, "expect": [
+      { "path": "capabilities.0.current", "code": "schema.type", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "review: negative milestone maturity", "set": { "capabilities.0.milestones.0.maturity": -1 }, "expect": [
+      { "path": "capabilities.0.milestones.0.maturity", "code": "schema.minimum", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "review: target below current", "set": { "capabilities.0.current": 2, "capabilities.0.target": 1, "capabilities.0.milestones": [] }, "expect": [
+      { "path": "capabilities.0.target", "code": "maturity.order", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "review: impossible calendar date in a milestone", "set": { "capabilities.0.milestones.0.date": "2026-02-30" }, "expect": [
+      { "path": "capabilities.0.milestones.0.date", "code": "date.invalid", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "malformed date string is structural", "set": { "capabilities.0.milestones.0.date": "July 2026" }, "expect": [
+      { "path": "capabilities.0.milestones.0.date", "code": "schema.pattern", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "review: missing dependency", "set": { "capabilities.0.dependencies": ["nope"] }, "expect": [
+      { "path": "capabilities.0.dependencies.0", "code": "ref.capability.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "dependency on itself", "set": { "capabilities.0.dependencies": ["alpha"] }, "expect": [
+      { "path": "capabilities.0.dependencies.0", "code": "dependency.self", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "repeated dependency is a warning", "set": { "capabilities.0.dependencies": ["beta", "beta"] }, "expect": [
+      { "path": "capabilities.0.dependencies.1", "code": "dependency.duplicate", "severity": "warning", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "dependency cycle is a warning with its path", "set": { "capabilities.1.dependencies": ["gamma"], "capabilities.2.dependencies": ["alpha"] }, "expect": [
+      { "path": "capabilities.0.dependencies", "code": "dependency.cycle", "severity": "warning", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "two independent cycles are both reported", "set": { "capabilities.1.dependencies": ["alpha"], "capabilities.2.dependencies": ["gamma"] }, "expect": [
+      { "path": "capabilities.0.dependencies", "code": "dependency.cycle", "severity": "warning", "entityType": "capability", "entityId": "alpha" },
+      { "path": "capabilities.2.dependencies.0", "code": "dependency.self", "severity": "error", "entityType": "capability", "entityId": "gamma" }
+    ] },
+    { "name": "maturity above the highest level", "set": { "capabilities.1.target": 2, "capabilities.1.current": 2 }, "expect": [
+      { "path": "capabilities.1.current", "code": "maturity.range", "severity": "error", "entityType": "capability", "entityId": "beta" },
+      { "path": "capabilities.1.target", "code": "maturity.range", "severity": "error", "entityType": "capability", "entityId": "beta" }
+    ] },
+    { "name": "milestone maturity above the highest level", "set": { "capabilities.0.milestones.0.maturity": 5 }, "expect": [
+      { "path": "capabilities.0.milestones.0.maturity", "code": "maturity.range", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "fewer than two levels", "set": { "capabilities.2.levels": [{ "id": "l0", "name": "Zero" }] }, "expect": [
+      { "path": "capabilities.2.levels", "code": "schema.minItems", "severity": "error", "entityType": "capability", "entityId": "gamma" }
+    ] },
+    { "name": "duplicate level id", "set": { "capabilities.1.levels.1.id": "l0" }, "expect": [
+      { "path": "capabilities.1.levels.1.id", "code": "id.duplicate", "severity": "error", "entityType": "level", "entityId": "beta/l0" }
+    ] },
+    { "name": "blank level name", "set": { "capabilities.1.levels.0.name": "  " }, "expect": [
+      { "path": "capabilities.1.levels.0.name", "code": "schema.pattern", "severity": "error", "entityType": "level", "entityId": "beta/l0" }
+    ] },
+    { "name": "duplicate milestone dates", "set": { "capabilities.0.milestones": [{ "date": "2026-07-01", "maturity": 1 }, { "date": "2026-07-01", "maturity": 2 }] }, "expect": [
+      { "path": "capabilities.0.milestones.1.date", "code": "milestone.duplicate", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "milestone collides with the current anchor", "set": { "capabilities.0.milestones.0.date": "2026-04-01" }, "expect": [
+      { "path": "capabilities.0.milestones.0.date", "code": "milestone.anchorCollision", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "milestone collides with the target anchor", "set": { "capabilities.0.milestones.0.date": "2027-01-01" }, "expect": [
+      { "path": "capabilities.0.milestones.0.date", "code": "milestone.anchorCollision", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "past milestone inside the timeline is valid", "set": { "capabilities.0.milestones.0.date": "2026-01-15", "capabilities.0.milestones.0.maturity": 0 }, "expect": [] },
+    { "name": "milestone outside the timeline", "set": { "capabilities.0.milestones.0.date": "2025-06-01" }, "expect": [
+      { "path": "capabilities.0.milestones.0.date", "code": "milestone.range", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "handoff outside the timeline is a warning", "set": { "capabilities.0.handoffDate": "2030-01-01" }, "expect": [
+      { "path": "capabilities.0.handoffDate", "code": "handoff.range", "severity": "warning", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "impossible handoff date", "set": { "capabilities.0.handoffDate": "2026-13-01" }, "expect": [
+      { "path": "capabilities.0.handoffDate", "code": "date.invalid", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "as-of date outside the timeline", "set": { "settings.timeline.asOf": "2028-01-01", "capabilities.0.milestones": [] }, "expect": [
+      { "path": "settings.timeline.asOf", "code": "timeline.asOf.range", "severity": "error", "entityType": "timeline", "entityId": null }
+    ] },
+    { "name": "impossible timeline start", "set": { "settings.timeline.start": "2026-02-31" }, "expect": [
+      { "path": "settings.timeline.start", "code": "date.invalid", "severity": "error", "entityType": "timeline", "entityId": null }
+    ] },
+    { "name": "too many periods", "set": { "settings.timeline.periods": 61 }, "expect": [
+      { "path": "settings.timeline.periods", "code": "schema.maximum", "severity": "error", "entityType": "timeline", "entityId": null }
+    ] },
+    { "name": "unknown granularity", "set": { "settings.timeline.granularity": "week" }, "expect": [
+      { "path": "settings.timeline.granularity", "code": "schema.enum", "severity": "error", "entityType": "timeline", "entityId": null }
+    ] },
+    { "name": "no audiences", "set": { "settings.audiences": [] }, "expect": [
+      { "path": "settings.audiences", "code": "schema.minItems", "severity": "error", "entityType": "settings", "entityId": null }
+    ] },
+    { "name": "duplicate audience id", "set": { "settings.audiences.1.id": "client" }, "expect": [
+      { "path": "presentation.defaultGuidance.0.audienceId", "code": "ref.audience.missing", "severity": "error", "entityType": "presentation", "entityId": null },
+      { "path": "settings.audiences.1.id", "code": "id.duplicate", "severity": "error", "entityType": "audience", "entityId": "client" }
+    ] },
+    { "name": "blank owner label", "set": { "settings.ownerLabels.federated": "" }, "expect": [
+      { "path": "settings.ownerLabels.federated", "code": "schema.pattern", "severity": "error", "entityType": "settings", "entityId": null }
+    ] },
+    { "name": "missing required fields", "set": { "capabilities.2.name": "$delete", "capabilities.2.owner": "$delete" }, "expect": [
+      { "path": "capabilities.2.name", "code": "schema.required", "severity": "error", "entityType": "capability", "entityId": "gamma" },
+      { "path": "capabilities.2.owner", "code": "schema.required", "severity": "error", "entityType": "capability", "entityId": "gamma" }
+    ] },
+    { "name": "invalid capability id format", "set": { "capabilities.2.id": "has space" }, "expect": [
+      { "path": "capabilities.2.id", "code": "schema.pattern", "severity": "error", "entityType": "capability", "entityId": "has space" }
+    ] },
+    { "name": "duplicate capability id", "set": { "capabilities.2.id": "beta" }, "expect": [
+      { "path": "capabilities.2.id", "code": "id.duplicate", "severity": "error", "entityType": "capability", "entityId": "beta" }
+    ] },
+    { "name": "missing domain reference", "set": { "capabilities.0.domainId": "ghost" }, "expect": [
+      { "path": "capabilities.0.domainId", "code": "ref.domain.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "missing audience membership and repeated membership", "set": { "capabilities.0.audienceIds": ["ghost", "client", "client"] }, "expect": [
+      { "path": "capabilities.0.audienceIds.0", "code": "ref.audience.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" },
+      { "path": "capabilities.0.audienceIds.2", "code": "membership.duplicate", "severity": "warning", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "guidance references", "set": { "capabilities.0.journey.guidance": [
+      { "audienceId": "ghost", "levelId": "l1", "text": "x" },
+      { "audienceId": "client", "levelId": "l9", "text": "y" },
+      { "audienceId": "client", "levelId": "l9", "text": "z" }
+    ] }, "expect": [
+      { "path": "capabilities.0.journey.guidance.0.audienceId", "code": "ref.audience.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" },
+      { "path": "capabilities.0.journey.guidance.1.levelId", "code": "ref.level.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" },
+      { "path": "capabilities.0.journey.guidance.2", "code": "guidance.duplicate", "severity": "error", "entityType": "capability", "entityId": "alpha" },
+      { "path": "capabilities.0.journey.guidance.2.levelId", "code": "ref.level.missing", "severity": "error", "entityType": "capability", "entityId": "alpha" }
+    ] },
+    { "name": "duplicate domain id and bad color", "set": { "domains": [{ "id": "core", "name": "Core" }, { "id": "core", "name": "Core 2" }] }, "expect": [
+      { "path": "domains.1.id", "code": "id.duplicate", "severity": "error", "entityType": "domain", "entityId": "core" }
+    ] },
+    { "name": "domain color format", "set": { "domains.0.color": "green" }, "expect": [
+      { "path": "domains.0.color", "code": "schema.pattern", "severity": "error", "entityType": "domain", "entityId": "core" }
+    ] },
+    { "name": "time segment overrides", "set": { "timeSegments": [{ "date": "2026-04-01", "label": "Launch" }, { "date": "2026-04-01" }, { "date": "2026-04-31" }] }, "expect": [
+      { "path": "timeSegments.1.date", "code": "id.duplicate", "severity": "error", "entityType": "timeSegment", "entityId": "2026-04-01" },
+      { "path": "timeSegments.2.date", "code": "date.invalid", "severity": "error", "entityType": "timeSegment", "entityId": "2026-04-31" }
+    ] },
+    { "name": "same table axes", "set": { "presentation.dataTable": { "xAxis": "domain", "yAxis": "domain", "filters": { "capabilityIds": ["ghost"] } } }, "expect": [
+      { "path": "presentation.dataTable.filters.capabilityIds.0", "code": "ref.filter.missing", "severity": "warning", "entityType": "presentation", "entityId": null },
+      { "path": "presentation.dataTable.yAxis", "code": "table.axes.same", "severity": "error", "entityType": "presentation", "entityId": null }
+    ] },
+    { "name": "unknown table dimension", "set": { "presentation.dataTable": { "xAxis": "owner" } }, "expect": [
+      { "path": "presentation.dataTable.xAxis", "code": "schema.enum", "severity": "error", "entityType": "presentation", "entityId": null }
+    ] },
+    { "name": "unknown journey section", "set": { "presentation.journeySections": [{ "id": "risks", "label": "Risks" }] }, "expect": [
+      { "path": "presentation.journeySections.0.id", "code": "schema.enum", "severity": "error", "entityType": "presentation", "entityId": null }
+    ] },
+    { "name": "zero zoom", "set": { "mapViews.0.viewport.zoom": 0 }, "expect": [
+      { "path": "mapViews.0.viewport.zoom", "code": "schema.exclusiveMinimum", "severity": "error", "entityType": "mapView", "entityId": "main" }
+    ] },
+    { "name": "non-numeric coordinate", "set": { "mapViews.0.placements.0.x": null }, "expect": [
+      { "path": "mapViews.0.placements.0.x", "code": "schema.type", "severity": "error", "entityType": "mapView", "entityId": "main" }
+    ] },
+    { "name": "map view references to deleted records are pruned with warnings", "set": {
+      "mapViews.0.selectedCapabilityId": "ghost", "mapViews.0.audienceId": "nobody",
+      "mapViews.0.filters": { "domainIds": ["nowhere"] },
+      "mapViews.0.placements": [
+        { "nodeId": "cap:ghost", "context": "appliance/unassigned", "x": 1, "y": 2 },
+        { "nodeId": "cap:alpha", "context": "appliance/core", "x": 1, "y": 2 },
+        { "nodeId": "cap:alpha", "context": "appliance/core", "x": 3, "y": 4 }
+      ]
+    }, "expect": [
+      { "path": "mapViews.0.audienceId", "code": "ref.mapView.missing", "severity": "warning", "entityType": "mapView", "entityId": "main" },
+      { "path": "mapViews.0.filters.domainIds.0", "code": "ref.mapView.missing", "severity": "warning", "entityType": "mapView", "entityId": "main" },
+      { "path": "mapViews.0.placements.0.nodeId", "code": "ref.mapView.missing", "severity": "warning", "entityType": "mapView", "entityId": "main" },
+      { "path": "mapViews.0.placements.2", "code": "placement.duplicate", "severity": "error", "entityType": "mapView", "entityId": "main" },
+      { "path": "mapViews.0.selectedCapabilityId", "code": "ref.mapView.missing", "severity": "warning", "entityType": "mapView", "entityId": "main" }
+    ] },
+    { "name": "map view dates must be real", "set": { "mapViews.0.focusDate": "2026-09-31" }, "expect": [
+      { "path": "mapViews.0.focusDate", "code": "date.invalid", "severity": "error", "entityType": "mapView", "entityId": "main" }
+    ] },
+    { "name": "unsupported fields are reported, not dropped", "set": { "colour": "blue", "capabilities.1.priority": "high", "capabilities.1.dita": { "audience": [], "region": "emea" } }, "expect": [
+      { "path": "capabilities.1.dita.region", "code": "field.unsupported", "severity": "warning", "entityType": "capability", "entityId": "beta" },
+      { "path": "capabilities.1.priority", "code": "field.unsupported", "severity": "warning", "entityType": "capability", "entityId": "beta" },
+      { "path": "colour", "code": "field.unsupported", "severity": "warning", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "extensions accept arbitrary custom data", "set": { "capabilities.1.extensions": { "costCentre": 42, "tags": ["a"] } }, "expect": [] },
+    { "name": "extensions must be an object", "set": { "extensions": [1] }, "expect": [
+      { "path": "extensions", "code": "schema.type", "severity": "error", "entityType": "document", "entityId": null }
+    ] },
+    { "name": "bad project id and timestamp", "set": { "project.id": "../etc", "project.updatedAt": "yesterday" }, "expect": [
+      { "path": "project.id", "code": "schema.pattern", "severity": "error", "entityType": "project", "entityId": "../etc" },
+      { "path": "project.updatedAt", "code": "schema.pattern", "severity": "error", "entityType": "project", "entityId": "../etc" }
+    ] },
+    { "name": "boolean where a number is expected", "set": { "capabilities.1.target": true }, "expect": [
+      { "path": "capabilities.1.target", "code": "schema.type", "severity": "error", "entityType": "capability", "entityId": "beta" }
+    ] },
+    { "name": "list where an object is expected", "set": { "settings.timeline": [] }, "expect": [
+      { "path": "settings.timeline", "code": "schema.type", "severity": "error", "entityType": "timeline", "entityId": null }
+    ] },
+    { "name": "default guidance referencing a missing audience", "set": { "presentation.defaultGuidance.0.audienceId": "ghost" }, "expect": [
+      { "path": "presentation.defaultGuidance.0.audienceId", "code": "ref.audience.missing", "severity": "error", "entityType": "presentation", "entityId": null }
+    ] }
+  ]
+}

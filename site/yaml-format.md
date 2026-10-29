@@ -1,13 +1,19 @@
 # YAML format reference
 
-YAML is the canonical capability document used by the Capability and Ownership Matrix. This reference describes the recommended exported document, field meanings, and the differences between browser and desktop validation; use it with the [analyst user guide](guide.md) when preparing or reviewing project data.
+YAML is the canonical project document used by the Capability and Ownership Matrix. One YAML document is one project. This reference describes the version 2 format, field meanings, the CSV interchange format, and how validation works; use it with the [analyst user guide](guide.md) when preparing or reviewing project data.
 
 ## Document shape
 
-The recommended document is a YAML object with `version`, `settings`, and a nonempty `capabilities` list. The importer also accepts a bare list of capability records, but a bare list cannot preserve project settings when exported.
+A version 2 document is a YAML mapping with `version: 2`, a `project` record, `settings`, and the project's records. Only `version`, `project` and `settings` are required; every collection may be empty, so a new project with no capabilities is valid.
 
 ```yaml
-version: 1
+version: 2
+project:
+  id: prj-k3m9x2q7aa1b        # immutable identity; renaming or moving the file never changes it
+  name: Guidance roadmap
+  description: Planning model for the 2027 guidance handoff.
+  createdAt: 2026-10-29T09:00:00Z
+  updatedAt: 2026-10-29T09:00:00Z
 settings:
   ownerLabels:
     appliance: Appliance
@@ -26,111 +32,164 @@ capabilities:
   - id: contextual-guidance
     name: Contextual guidance
     summary: Relevant guidance at the point of need.
-    current: 3
-    target: 5
+    decision: Agree on the handoff to a shared content service.
     owner: appliance
     futureOwner: federated
     handoffDate: 2028-10-01
-    decision: Agree on the handoff to a shared content service.
-    dependencies:
-      - deployment-metadata
-      - content-service
+    current: 3
+    target: 5
+    domainId: guidance
+    audienceIds: [client]
+    dependencies: [content-service]
     levels:
-      - name: Emerging
+      - id: emerging
+        name: Emerging
         description: Explore the need.
-      - name: Initial
-        description: Describe the capability.
-      - name: Defined
-        description: Define the model.
-      - name: Managed
-        description: Operate a first version.
-      - name: Measured
-        description: Measure outcomes.
+        outcomes: A shared problem statement.
+        exitCriteria: Need confirmed by two client interviews.
+      - id: initial
+        name: Initial
+      # … one entry per level, at least two and at most twenty
     milestones:
       - date: 2027-10-01
         maturity: 4
+        note: Pilot with two clients.
+    definition:
+      purpose: Give people guidance at the point of need.
+      scope: In-device help and contextual task guidance.
+      exclusions: Authoring tools.
+      outcomes: ''
+      evidence: ''
+      notes: ''
+    journey:
+      guidance:
+        - audienceId: client
+          levelId: initial
+          text: In-device help covers common tasks.
     dita:
       audience: [client, consultant]
       maturity: phase-3
       ownership: appliance-native
+    extensions: {}
+domains:
+  - id: guidance
+    name: Guidance and content
+    description: Help, guidance and governed content delivery.
+    color: '#dfeef0'
+timeSegments:
+  - date: 2027-01-01
+    label: Launch quarter
+    description: First client release.
+presentation:
+  journeySections:
+    - id: notes
+      label: Remarks
+      visible: false
+  defaultGuidance:
+    - audienceId: client
+      levelId: managed
+      text: Contextual guidance appears when needed.
+  dataTable:
+    xAxis: capability
+    yAxis: audience
+    filters: { search: '', capabilityIds: [] }
+mapViews:
+  - id: board-review
+    name: Board review
+    viewport: { x: 120, y: 40, zoom: 0.8 }
+    placements:
+      - { nodeId: cap:contextual-guidance, context: appliance/guidance, x: 0, y: 0, pinned: true }
+extensions: {}
 ```
 
-The bundled [capabilities.yaml](https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml) contains six illustrative capabilities and project settings. Its capability facts, IDs, maturity values, dependencies, audience wording, and DITA metadata are examples, not an approved project model.
+The bundled [capabilities.yaml](https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml) contains six illustrative capabilities and three domains. Its facts, IDs, maturity values, dependencies, audience wording, guidance and DITA metadata are examples, not an approved project model.
 
-## Document and settings fields
+The app writes documents compactly: a field whose value equals its documented default (an empty string, empty list or `null`) is omitted, and loading fills it back in. Comments and formatting in a hand-edited file are not preserved when the app saves it.
 
-| Field | Required in source | Meaning |
+## Identifiers
+
+IDs are stable identities, not labels. Project IDs use letters, digits, `-` and `_` (up to 64 characters). Other IDs (capabilities, levels, audiences, domains, map views) start with a letter or digit and may also contain `.` (up to 80 characters). The app generates IDs from the first name you enter and never changes them when you rename a record.
+
+## Project and settings
+
+| Field | Required | Meaning |
 | --- | --- | --- |
-| `version` | Recommended | Exported as `1`. The current importer does not reject an unsupported or missing version; version migration is not implemented. |
-| `settings` | Optional | Project-wide owner labels, audience perspectives, and timeline. Missing settings are replaced with defaults. |
-| `settings.ownerLabels.appliance` | Optional | Display label for owner ID `appliance`; defaults to `Appliance`. |
-| `settings.ownerLabels.federated` | Optional | Display label for owner ID `federated`; defaults to `Federated`. |
-| `settings.audiences` | Optional | List of audience perspectives. Each item has `id`, `label`, `description`, and `need`. If omitted, the five built-in perspectives are used. |
-| `settings.timeline.granularity` | Optional | Period unit: `month`, `quarter`, `biannual`, or `year`. The default is `quarter`. |
-| `settings.timeline.start` | Optional | ISO date (`YYYY-MM-DD`) for the first period; defaults to `2026-10-01`. |
-| `settings.timeline.periods` | Optional | Number of periods, from 2 through 60; defaults to 9. |
-| `settings.timeline.asOf` | Optional | ISO date that anchors each capability’s `current` maturity; defaults to the timeline start. |
+| `version` | Yes | Must be `2`. Version 1 files are migrated explicitly (see [Migrating version 1](#migrating-version-1)); later versions are rejected with a message to update the app. |
+| `project.id` | Yes | Immutable project identity. |
+| `project.name` | Yes | Display name; cannot be blank. |
+| `project.description` | No | Free text. |
+| `project.createdAt`, `project.updatedAt` | Yes | ISO 8601 timestamps, for example `2026-10-29T09:00:00Z`. The app updates `updatedAt` on every applied change. |
+| `settings.ownerLabels.appliance`, `.federated` | Yes | Display labels for the fixed owner IDs `appliance` and `federated`. |
+| `settings.audiences` | Yes, at least one | Perspectives with `id`, `label`, optional `description` (role) and `need`. |
+| `settings.timeline.granularity` | Yes | `month`, `quarter`, `biannual` or `year`. |
+| `settings.timeline.start` | Yes | Real calendar date (`YYYY-MM-DD`); the first segment starts on the first day of its month. |
+| `settings.timeline.periods` | Yes | Whole number from 2 through 60. |
+| `settings.timeline.asOf` | Yes | Date that anchors every capability's `current` maturity; must fall inside the timeline. |
 
-Audience IDs should be stable, nonempty identifiers, and the label, role description, and need should be understandable to the planning group. The built-in IDs are `client`, `consultant`, `product-team`, `leadership`, and `wider-domain`; custom IDs can be used, but some Journey audience-impact text is illustrative for the built-in set.
+## Capabilities
 
-Timeline dates should be valid calendar dates in ISO form. The `start` date, granularity, and period count define the timeline; changing the granularity changes the period labels and span, while milestone dates remain ISO dates.
-
-## Capability fields
-
-| Field | Required in source | Meaning and guidance |
+| Field | Required | Meaning and guidance |
 | --- | --- | --- |
-| `id` | Yes | Unique, nonempty, stable identifier. Other records refer to it from `dependencies`. Avoid changing it when only the display name changes. |
-| `name` | Yes | Nonempty display name for the capability. |
-| `summary` | Recommended | Short description of the ability or outcome; defaults to an empty string when omitted. |
-| `current` | Yes | Nonnegative numeric maturity value. It is anchored at `settings.timeline.asOf`. |
-| `target` | Yes | Nonnegative numeric maturity value planned for the final timeline period. Desktop validation requires it to be at least `current`. |
-| `owner` | Yes | Current owner ID: `appliance` or `federated`. |
-| `futureOwner` | Yes | Planned owner ID: `appliance` or `federated`. |
-| `handoffDate` | Optional | ISO date when the future owner takes responsibility. If omitted, the owner changes at the last timeline period. |
-| `decision` | Recommended | Scope, ownership, or planning rationale to discuss with stakeholders; defaults to an empty string. |
-| `dependencies` | Recommended | List of IDs of other capabilities this capability relies on. Use `[]` for none. |
-| `levels` | Recommended | Ordered maturity-level definitions for this capability; each item has a nonempty `name` and optional `description`. |
-| `milestones` | Optional | Dated maturity points between or outside the current and target anchors; each item has an ISO `date` and numeric `maturity`. |
-| `dita` | Optional | Proposed DITA/content metadata. Values are planning notes, not validated publishing configuration. |
+| `id`, `name` | Yes | Stable ID and display name. |
+| `summary`, `decision` | No | Short description and the scope or ownership rationale. |
+| `owner`, `futureOwner` | Yes | `appliance` or `federated`. Any other value is an error; it is never silently replaced. |
+| `handoffDate` | No | Date the future owner takes over. If omitted, ownership changes at the last segment. A date outside the timeline is a warning. |
+| `current`, `target` | Yes | Whole-number ranks into `levels` (M0 is the first level). `target` must be at least `current`, and both must exist in `levels`. |
+| `levels` | Yes | 2–20 ordered levels. Each has a stable `id`, a `name`, and optional `description`, `outcomes` and `exitCriteria` (evidence or exit criteria). |
+| `milestones` | No | Dated whole-number maturity points with an optional `note`. Each date must be real, unique, inside the timeline, and different from the `asOf` and final-segment anchors. Past dates are allowed. |
+| `dependencies` | No | IDs of capabilities this one relies on. Missing IDs and self-references are errors; repeats and dependency cycles are warnings (the warning shows the cycle path). |
+| `domainId` | No | One optional domain. Domain is separate from ownership. |
+| `audienceIds` | No | Business audience membership. It drives the Matrix rows and the data table, and is separate from the proposed DITA audience mapping. |
+| `definition` | No | `purpose`, `scope`, `exclusions`, `outcomes`, `evidence`, `notes`. Shown in the Capability journey; empty sections show an honest “Not recorded” state. |
+| `journey.guidance` | No | Audience-specific guidance keyed by `audienceId` and `levelId`. Overrides `presentation.defaultGuidance` for this capability. |
+| `dita` | No | Proposed DITA metadata (`audience`, `maturity`, `ownership`). It records intent only and is not a validated CCMS configuration. |
+| `extensions` | No | Free-form custom data. Put your own fields here. |
 
-Maturity values are numeric and correspond to positions in the capability’s ordered `levels` list, starting at zero. The editor supports at least two levels and up to twenty levels. Desktop validation checks that `current`, `target`, and milestone maturity values do not exceed the highest level, and it checks that `target` is not below `current`; use whole numbers that match the ordered levels.
+Maturity at any date is calculated from the `asOf` anchor, dated milestones and the target at the last segment, rounding the linear interpolation between points. The Current and Focus selectors only inspect dates; they never move the anchors.
 
-If `levels` is omitted or empty, the application supplies default maturity-level names and descriptions. Explicit level definitions are recommended for project data because they make the rubric portable and visible in exported YAML.
+Reordering or removing levels in the app remaps `current`, `target`, milestones and guidance through level IDs and previews the effect before you apply it.
 
-The model estimates maturity at selected dates by interpolating between the `asOf` current value, dated milestones, and the target at the end of the timeline. The selected Current and Focus periods are view controls; they do not overwrite these stored anchors.
+## Domains, time segments, presentation and map views
 
-## Ownership and dependencies
+| Collection | Fields | Notes |
+| --- | --- | --- |
+| `domains` | `id`, `name`, `description`, `color` (`#rrggbb`) | A domain may contain capabilities with either owner; the map draws one region per owner. |
+| `timeSegments` | `date`, `label`, `description` | Overrides only. Segments are generated from the timeline and identified by their start date. Overrides for dates outside the current timeline are kept (hidden), so a granularity change never deletes them. |
+| `presentation.journeySections` | `id`, `label`, `visible` | Section IDs: `purpose`, `scope`, `exclusions`, `outcomes`, `evidence`, `notes`, `stageCriteria`, `audienceGuidance`. Omitted sections keep their default label and are visible. |
+| `presentation.defaultGuidance` | `audienceId`, `levelId`, `text` | Reusable guidance shown for any capability that has a level with that ID. A level ID used by no capability is a warning. |
+| `presentation.dataTable` | `xAxis`, `yAxis`, `filters` | Saved data-table layout. Axes are `capability`, `maturity`, `audience`, `domain` or `time` and must differ. |
+| `mapViews` | `id`, `name`, `layoutSeed`, `layoutVersion`, `viewport`, `filters`, `selectedCapabilityId`, `audienceId`, `currentDate`, `focusDate`, `placements` | Named domain-map views. `viewport.zoom` must be greater than zero; coordinates must be finite numbers. Each placement remembers a node position for one owner/domain context (`cap:<id>` in `appliance/<domain>` and so on), so a card returns to where you left it when the Focus date brings it back to that context. References to deleted records are warnings and are pruned when the view opens. |
 
-Ownership uses fixed IDs and editable labels. Use `appliance` for the product-side owner and `federated` for the wider-environment owner; changing the display labels in settings does not change those IDs.
+## Validation
 
-Each dependency must refer to a capability ID in the same document. A record cannot depend on itself, and desktop validation rejects missing dependency IDs; the validator does not check dependency cycles or determine whether an upstream capability is ready.
+Validation runs on the raw file before anything is applied, in three layers:
 
-```mermaid
-flowchart LR
-    A["deployment-metadata"] -->|"prerequisite for"| B["content-service"]
-    B -->|"prerequisite for"| C["contextual-guidance"]
-```
+1. **Version gate.** Missing, version 1 (migration needed) and newer versions are reported first.
+2. **Structure.** The [JSON Schema](https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/schema/capability-project.schema.json) generated from the Python (Pydantic) contract checks required fields, types, whole numbers, enums, formats and bounds. Values are never coerced: `"3"`, `1.5` and `true` are not maturity values.
+3. **Cross-record rules.** Unique IDs, existing references, maturity within each capability's levels, target ≥ current, real calendar dates, timeline ranges, milestone collisions, guidance references, distinct table axes, map-view references and dependency cycles.
 
-In the YAML, the dependent record contains the IDs of its prerequisites. For example, `contextual-guidance` lists `content-service` in its own `dependencies` array, while the diagram draws the arrow from the prerequisite to the dependent capability.
+Fields the format does not define are reported as warnings and kept, never dropped; move custom data under `extensions` to silence the warning.
 
-## DITA planning metadata
+Errors block an import or an applied change; warnings do not. Each issue names its severity, a code, the record (`entityType`, `entityId`), the field `path` (for example `capabilities.0.target`) and a corrective message. In the Data workspace, selecting an issue opens the record and focuses the field.
 
-The optional `dita` value is an object for proposed content annotations. The bundled example uses `audience`, `maturity`, and `ownership`, but the current app does not validate those values against a DITA content model.
+The browser and the desktop app apply the same rules: the browser uses the generated schema and a twin of the Python rules, and a shared set of fixtures holds both to identical results. In the desktop app, the Python sidecar validates every change again before it is saved. The exported JSON Schema covers structure only; cross-record rules need the application validator.
 
-Do not treat these fields as approved DITA attributes, production DITAVAL filters, or a validated CCMS configuration. The tool does not call the CCMS, deploy embedded content, or generate PDF manuals; validate all proposed mappings with the content team before using them in a publishing workflow.
+## Migrating version 1
 
-## Validation behavior
+Import a version 1 file (or one with no `version` and a `capabilities` list) to migrate it. The app shows a preview first, then:
 
-The React importer requires a nonempty capability list, unique nonempty IDs, nonempty names, and nonnegative numeric current and target values. It normalizes omitted optional fields and unknown owner IDs; do not rely on those defaults for project data.
+- assigns a new project ID and level IDs (from level names);
+- keeps owner labels, audiences, timeline settings and every capability field;
+- copies each capability's `dita.audience` into `audienceIds` (the DITA mapping itself is kept);
+- adds the version 1 default levels to capabilities that had none, and `appliance` for a missing owner;
+- starts domains, segment overrides and map views empty.
 
-In the Tauri desktop app, the Python sidecar additionally checks that targets are not below current values, levels contain at least two named entries, maturity values fit the level list, owner IDs are valid, and dependencies refer to existing IDs without self-reference. However, the React importer normalizes missing or unrecognized owner values to `appliance` before the sidecar receives them, so an owner typo may not be reported as an error. Supply `appliance` or `federated` explicitly. A failed import or edit is reported and the active document remains unchanged.
+Invalid values are carried over unchanged so validation reports them. The original bytes are kept as `original-v1.yaml` beside the new project (desktop) or in the session (browser). On first launch, the desktop app migrates an earlier single `capabilities.yaml` once and leaves that file in place.
 
-The browser preview does not run the sidecar and does not provide equivalent cross-record validation. It does not reject a target below current maturity or a missing dependency reference, and it normalizes unknown owner IDs to `appliance`; these values can produce misleading planning data. Validate the YAML in the desktop app before using the browser preview for planning.
+## CSV interchange
 
-The current importer does not enforce the `version` value, reject dependency cycles, verify that audience IDs in DITA metadata exist in settings, or validate DITA attributes. Treat these as analyst review responsibilities.
+CSV export is lossless and re-importable. It uses one versioned file with the columns `format_version,record_type,record_id,parent_id,payload_json`, UTF-8 and standard CSV quoting. Record types are `project`, `settings`, `presentation`, `extensions`, `document` (unknown top-level fields), `domain`, `time-segment`, `capability` and `map-view`; nested values stay JSON in `payload_json`.
 
-## Prepare and import a file
+Import shows the record counts and any errors first, and rebuilds and validates the whole document before applying it. Unsupported format versions, unknown record types, duplicate rows and a `record_id` that disagrees with its payload are rejected. Third-party column layouts are not supported.
 
-Create a project copy of the sample, replace all illustrative records, preserve stable IDs, and check every dependency after editing or removing capabilities. Keep the project’s maturity rubric and audience descriptions alongside the YAML so reviewers can understand the values rather than infer their meaning from the chart.
-
-Save the file with a `.yaml` or `.yml` extension, then choose **Import YAML** in the application. Desktop validation is recommended before the first planning review; after changes in either runtime, choose **Export YAML** to create `capability-ownership.yaml` and keep that exported version in the project’s approved document store.
+The **Export table report** button in the Data workspace writes a readable CSV of the current table. That file is a report and cannot be imported.

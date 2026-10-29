@@ -321,10 +321,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-and-settings-fields" class="md-nav__link">
+  <a href="#identifiers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Document and settings fields
+        Identifiers
       
     </span>
   </a>
@@ -332,10 +332,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#capability-fields" class="md-nav__link">
+  <a href="#project-and-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Capability fields
+        Project and settings
       
     </span>
   </a>
@@ -343,10 +343,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ownership-and-dependencies" class="md-nav__link">
+  <a href="#capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ownership and dependencies
+        Capabilities
       
     </span>
   </a>
@@ -354,10 +354,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dita-planning-metadata" class="md-nav__link">
+  <a href="#domains-time-segments-presentation-and-map-views" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DITA planning metadata
+        Domains, time segments, presentation and map views
       
     </span>
   </a>
@@ -365,10 +365,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation-behavior" class="md-nav__link">
+  <a href="#validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation behavior
+        Validation
       
     </span>
   </a>
@@ -376,10 +376,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prepare-and-import-a-file" class="md-nav__link">
+  <a href="#migrating-version-1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prepare and import a file
+        Migrating version 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-interchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV interchange
       
     </span>
   </a>
@@ -432,10 +443,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-and-settings-fields" class="md-nav__link">
+  <a href="#identifiers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Document and settings fields
+        Identifiers
       
     </span>
   </a>
@@ -443,10 +454,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#capability-fields" class="md-nav__link">
+  <a href="#project-and-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Capability fields
+        Project and settings
       
     </span>
   </a>
@@ -454,10 +465,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ownership-and-dependencies" class="md-nav__link">
+  <a href="#capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ownership and dependencies
+        Capabilities
       
     </span>
   </a>
@@ -465,10 +476,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dita-planning-metadata" class="md-nav__link">
+  <a href="#domains-time-segments-presentation-and-map-views" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DITA planning metadata
+        Domains, time segments, presentation and map views
       
     </span>
   </a>
@@ -476,10 +487,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation-behavior" class="md-nav__link">
+  <a href="#validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation behavior
+        Validation
       
     </span>
   </a>
@@ -487,10 +498,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prepare-and-import-a-file" class="md-nav__link">
+  <a href="#migrating-version-1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prepare and import a file
+        Migrating version 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv-interchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSV interchange
       
     </span>
   </a>
@@ -515,10 +537,16 @@
 
 
 <h1 id="yaml-format-reference">YAML format reference<a class="headerlink" href="#yaml-format-reference" title="Permanent link">&para;</a></h1>
-<p>YAML is the canonical capability document used by the Capability and Ownership Matrix. This reference describes the recommended exported document, field meanings, and the differences between browser and desktop validation; use it with the <a href="../guide/">analyst user guide</a> when preparing or reviewing project data.</p>
+<p>YAML is the canonical project document used by the Capability and Ownership Matrix. One YAML document is one project. This reference describes the version 2 format, field meanings, the CSV interchange format, and how validation works; use it with the <a href="../guide/">analyst user guide</a> when preparing or reviewing project data.</p>
 <h2 id="document-shape">Document shape<a class="headerlink" href="#document-shape" title="Permanent link">&para;</a></h2>
-<p>The recommended document is a YAML object with <code>version</code>, <code>settings</code>, and a nonempty <code>capabilities</code> list. The importer also accepts a bare list of capability records, but a bare list cannot preserve project settings when exported.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<p>A version 2 document is a YAML mapping with <code>version: 2</code>, a <code>project</code> record, <code>settings</code>, and the project's records. Only <code>version</code>, <code>project</code> and <code>settings</code> are required; every collection may be empty, so a new project with no capabilities is valid.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">project</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prj-k3m9x2q7aa1b</span><span class="w">        </span><span class="c1"># immutable identity; renaming or moving the file never changes it</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guidance roadmap</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Planning model for the 2027 guidance handoff.</span>
+<span class="w">  </span><span class="nt">createdAt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-29T09:00:00Z</span>
+<span class="w">  </span><span class="nt">updatedAt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-29T09:00:00Z</span>
 <span class="nt">settings</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">ownerLabels</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">appliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Appliance</span>
@@ -537,192 +565,296 @@
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contextual-guidance</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Contextual guidance</span>
 <span class="w">    </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Relevant guidance at the point of need.</span>
-<span class="w">    </span><span class="nt">current</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<span class="w">    </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">    </span><span class="nt">decision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Agree on the handoff to a shared content service.</span>
 <span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">appliance</span>
 <span class="w">    </span><span class="nt">futureOwner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">federated</span>
 <span class="w">    </span><span class="nt">handoffDate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2028-10-01</span>
-<span class="w">    </span><span class="nt">decision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Agree on the handoff to a shared content service.</span>
-<span class="w">    </span><span class="nt">dependencies</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment-metadata</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content-service</span>
+<span class="w">    </span><span class="nt">current</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">    </span><span class="nt">domainId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guidance</span>
+<span class="w">    </span><span class="nt">audienceIds</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">client</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">content-service</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">levels</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Emerging</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">emerging</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Emerging</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Explore the need.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Initial</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Describe the capability.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Defined</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Define the model.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Managed</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Operate a first version.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measured</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measure outcomes.</span>
+<span class="w">        </span><span class="nt">outcomes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A shared problem statement.</span>
+<span class="w">        </span><span class="nt">exitCriteria</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Need confirmed by two client interviews.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Initial</span>
+<span class="w">      </span><span class="c1"># … one entry per level, at least two and at most twenty</span>
 <span class="w">    </span><span class="nt">milestones</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2027-10-01</span>
 <span class="w">        </span><span class="nt">maturity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">        </span><span class="nt">note</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pilot with two clients.</span>
+<span class="w">    </span><span class="nt">definition</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">purpose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Give people guidance at the point of need.</span>
+<span class="w">      </span><span class="nt">scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In-device help and contextual task guidance.</span>
+<span class="w">      </span><span class="nt">exclusions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Authoring tools.</span>
+<span class="w">      </span><span class="nt">outcomes</span><span class="p">:</span><span class="w"> </span><span class="s">''</span>
+<span class="w">      </span><span class="nt">evidence</span><span class="p">:</span><span class="w"> </span><span class="s">''</span>
+<span class="w">      </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">''</span>
+<span class="w">    </span><span class="nt">journey</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">guidance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">audienceId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client</span>
+<span class="w">          </span><span class="nt">levelId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial</span>
+<span class="w">          </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In-device help covers common tasks.</span>
 <span class="w">    </span><span class="nt">dita</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">audience</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">client</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">consultant</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">maturity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phase-3</span>
 <span class="w">      </span><span class="nt">ownership</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">appliance-native</span>
+<span class="w">    </span><span class="nt">extensions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">domains</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guidance</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guidance and content</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Help, guidance and governed content delivery.</span>
+<span class="w">    </span><span class="nt">color</span><span class="p">:</span><span class="w"> </span><span class="s">'#dfeef0'</span>
+<span class="nt">timeSegments</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2027-01-01</span>
+<span class="w">    </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Launch quarter</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">First client release.</span>
+<span class="nt">presentation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">journeySections</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">notes</span>
+<span class="w">      </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Remarks</span>
+<span class="w">      </span><span class="nt">visible</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">defaultGuidance</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">audienceId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client</span>
+<span class="w">      </span><span class="nt">levelId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">managed</span>
+<span class="w">      </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Contextual guidance appears when needed.</span>
+<span class="w">  </span><span class="nt">dataTable</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">xAxis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">capability</span>
+<span class="w">    </span><span class="nt">yAxis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">audience</span>
+<span class="w">    </span><span class="nt">filters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> search</span><span class="p">:</span><span class="w"> </span><span class="s">''</span><span class="p p-Indicator">,</span><span class="nt"> capabilityIds</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="nt">mapViews</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">board-review</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Board review</span>
+<span class="w">    </span><span class="nt">viewport</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> x</span><span class="p">:</span><span class="w"> </span><span class="nv">120</span><span class="p p-Indicator">,</span><span class="nt"> y</span><span class="p">:</span><span class="w"> </span><span class="nv">40</span><span class="p p-Indicator">,</span><span class="nt"> zoom</span><span class="p">:</span><span class="w"> </span><span class="nv">0.8</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">placements</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> nodeId</span><span class="p">:</span><span class="w"> </span><span class="nv">cap</span><span class="p p-Indicator">:</span><span class="nv">contextual-guidance</span><span class="p p-Indicator">,</span><span class="nt"> context</span><span class="p">:</span><span class="w"> </span><span class="nv">appliance/guidance</span><span class="p p-Indicator">,</span><span class="nt"> x</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> y</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> pinned</span><span class="p">:</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="nt">extensions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 </code></pre></div>
-<p>The bundled <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">capabilities.yaml</a> contains six illustrative capabilities and project settings. Its capability facts, IDs, maturity values, dependencies, audience wording, and DITA metadata are examples, not an approved project model.</p>
-<h2 id="document-and-settings-fields">Document and settings fields<a class="headerlink" href="#document-and-settings-fields" title="Permanent link">&para;</a></h2>
+<p>The bundled <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">capabilities.yaml</a> contains six illustrative capabilities and three domains. Its facts, IDs, maturity values, dependencies, audience wording, guidance and DITA metadata are examples, not an approved project model.</p>
+<p>The app writes documents compactly: a field whose value equals its documented default (an empty string, empty list or <code>null</code>) is omitted, and loading fills it back in. Comments and formatting in a hand-edited file are not preserved when the app saves it.</p>
+<h2 id="identifiers">Identifiers<a class="headerlink" href="#identifiers" title="Permanent link">&para;</a></h2>
+<p>IDs are stable identities, not labels. Project IDs use letters, digits, <code>-</code> and <code>_</code> (up to 64 characters). Other IDs (capabilities, levels, audiences, domains, map views) start with a letter or digit and may also contain <code>.</code> (up to 80 characters). The app generates IDs from the first name you enter and never changes them when you rename a record.</p>
+<h2 id="project-and-settings">Project and settings<a class="headerlink" href="#project-and-settings" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Required in source</th>
+<th>Required</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>version</code></td>
-<td>Recommended</td>
-<td>Exported as <code>1</code>. The current importer does not reject an unsupported or missing version; version migration is not implemented.</td>
+<td>Yes</td>
+<td>Must be <code>2</code>. Version 1 files are migrated explicitly (see <a href="#migrating-version-1">Migrating version 1</a>); later versions are rejected with a message to update the app.</td>
 </tr>
 <tr>
-<td><code>settings</code></td>
-<td>Optional</td>
-<td>Project-wide owner labels, audience perspectives, and timeline. Missing settings are replaced with defaults.</td>
+<td><code>project.id</code></td>
+<td>Yes</td>
+<td>Immutable project identity.</td>
 </tr>
 <tr>
-<td><code>settings.ownerLabels.appliance</code></td>
-<td>Optional</td>
-<td>Display label for owner ID <code>appliance</code>; defaults to <code>Appliance</code>.</td>
+<td><code>project.name</code></td>
+<td>Yes</td>
+<td>Display name; cannot be blank.</td>
 </tr>
 <tr>
-<td><code>settings.ownerLabels.federated</code></td>
-<td>Optional</td>
-<td>Display label for owner ID <code>federated</code>; defaults to <code>Federated</code>.</td>
+<td><code>project.description</code></td>
+<td>No</td>
+<td>Free text.</td>
+</tr>
+<tr>
+<td><code>project.createdAt</code>, <code>project.updatedAt</code></td>
+<td>Yes</td>
+<td>ISO 8601 timestamps, for example <code>2026-10-29T09:00:00Z</code>. The app updates <code>updatedAt</code> on every applied change.</td>
+</tr>
+<tr>
+<td><code>settings.ownerLabels.appliance</code>, <code>.federated</code></td>
+<td>Yes</td>
+<td>Display labels for the fixed owner IDs <code>appliance</code> and <code>federated</code>.</td>
 </tr>
 <tr>
 <td><code>settings.audiences</code></td>
-<td>Optional</td>
-<td>List of audience perspectives. Each item has <code>id</code>, <code>label</code>, <code>description</code>, and <code>need</code>. If omitted, the five built-in perspectives are used.</td>
+<td>Yes, at least one</td>
+<td>Perspectives with <code>id</code>, <code>label</code>, optional <code>description</code> (role) and <code>need</code>.</td>
 </tr>
 <tr>
 <td><code>settings.timeline.granularity</code></td>
-<td>Optional</td>
-<td>Period unit: <code>month</code>, <code>quarter</code>, <code>biannual</code>, or <code>year</code>. The default is <code>quarter</code>.</td>
+<td>Yes</td>
+<td><code>month</code>, <code>quarter</code>, <code>biannual</code> or <code>year</code>.</td>
 </tr>
 <tr>
 <td><code>settings.timeline.start</code></td>
-<td>Optional</td>
-<td>ISO date (<code>YYYY-MM-DD</code>) for the first period; defaults to <code>2026-10-01</code>.</td>
+<td>Yes</td>
+<td>Real calendar date (<code>YYYY-MM-DD</code>); the first segment starts on the first day of its month.</td>
 </tr>
 <tr>
 <td><code>settings.timeline.periods</code></td>
-<td>Optional</td>
-<td>Number of periods, from 2 through 60; defaults to 9.</td>
+<td>Yes</td>
+<td>Whole number from 2 through 60.</td>
 </tr>
 <tr>
 <td><code>settings.timeline.asOf</code></td>
-<td>Optional</td>
-<td>ISO date that anchors each capability’s <code>current</code> maturity; defaults to the timeline start.</td>
+<td>Yes</td>
+<td>Date that anchors every capability's <code>current</code> maturity; must fall inside the timeline.</td>
 </tr>
 </tbody>
 </table>
-<p>Audience IDs should be stable, nonempty identifiers, and the label, role description, and need should be understandable to the planning group. The built-in IDs are <code>client</code>, <code>consultant</code>, <code>product-team</code>, <code>leadership</code>, and <code>wider-domain</code>; custom IDs can be used, but some Journey audience-impact text is illustrative for the built-in set.</p>
-<p>Timeline dates should be valid calendar dates in ISO form. The <code>start</code> date, granularity, and period count define the timeline; changing the granularity changes the period labels and span, while milestone dates remain ISO dates.</p>
-<h2 id="capability-fields">Capability fields<a class="headerlink" href="#capability-fields" title="Permanent link">&para;</a></h2>
+<h2 id="capabilities">Capabilities<a class="headerlink" href="#capabilities" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Required in source</th>
+<th>Required</th>
 <th>Meaning and guidance</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
+<td><code>id</code>, <code>name</code></td>
 <td>Yes</td>
-<td>Unique, nonempty, stable identifier. Other records refer to it from <code>dependencies</code>. Avoid changing it when only the display name changes.</td>
+<td>Stable ID and display name.</td>
 </tr>
 <tr>
-<td><code>name</code></td>
-<td>Yes</td>
-<td>Nonempty display name for the capability.</td>
+<td><code>summary</code>, <code>decision</code></td>
+<td>No</td>
+<td>Short description and the scope or ownership rationale.</td>
 </tr>
 <tr>
-<td><code>summary</code></td>
-<td>Recommended</td>
-<td>Short description of the ability or outcome; defaults to an empty string when omitted.</td>
-</tr>
-<tr>
-<td><code>current</code></td>
+<td><code>owner</code>, <code>futureOwner</code></td>
 <td>Yes</td>
-<td>Nonnegative numeric maturity value. It is anchored at <code>settings.timeline.asOf</code>.</td>
-</tr>
-<tr>
-<td><code>target</code></td>
-<td>Yes</td>
-<td>Nonnegative numeric maturity value planned for the final timeline period. Desktop validation requires it to be at least <code>current</code>.</td>
-</tr>
-<tr>
-<td><code>owner</code></td>
-<td>Yes</td>
-<td>Current owner ID: <code>appliance</code> or <code>federated</code>.</td>
-</tr>
-<tr>
-<td><code>futureOwner</code></td>
-<td>Yes</td>
-<td>Planned owner ID: <code>appliance</code> or <code>federated</code>.</td>
+<td><code>appliance</code> or <code>federated</code>. Any other value is an error; it is never silently replaced.</td>
 </tr>
 <tr>
 <td><code>handoffDate</code></td>
-<td>Optional</td>
-<td>ISO date when the future owner takes responsibility. If omitted, the owner changes at the last timeline period.</td>
+<td>No</td>
+<td>Date the future owner takes over. If omitted, ownership changes at the last segment. A date outside the timeline is a warning.</td>
 </tr>
 <tr>
-<td><code>decision</code></td>
-<td>Recommended</td>
-<td>Scope, ownership, or planning rationale to discuss with stakeholders; defaults to an empty string.</td>
-</tr>
-<tr>
-<td><code>dependencies</code></td>
-<td>Recommended</td>
-<td>List of IDs of other capabilities this capability relies on. Use <code>[]</code> for none.</td>
+<td><code>current</code>, <code>target</code></td>
+<td>Yes</td>
+<td>Whole-number ranks into <code>levels</code> (M0 is the first level). <code>target</code> must be at least <code>current</code>, and both must exist in <code>levels</code>.</td>
 </tr>
 <tr>
 <td><code>levels</code></td>
-<td>Recommended</td>
-<td>Ordered maturity-level definitions for this capability; each item has a nonempty <code>name</code> and optional <code>description</code>.</td>
+<td>Yes</td>
+<td>2–20 ordered levels. Each has a stable <code>id</code>, a <code>name</code>, and optional <code>description</code>, <code>outcomes</code> and <code>exitCriteria</code> (evidence or exit criteria).</td>
 </tr>
 <tr>
 <td><code>milestones</code></td>
-<td>Optional</td>
-<td>Dated maturity points between or outside the current and target anchors; each item has an ISO <code>date</code> and numeric <code>maturity</code>.</td>
+<td>No</td>
+<td>Dated whole-number maturity points with an optional <code>note</code>. Each date must be real, unique, inside the timeline, and different from the <code>asOf</code> and final-segment anchors. Past dates are allowed.</td>
+</tr>
+<tr>
+<td><code>dependencies</code></td>
+<td>No</td>
+<td>IDs of capabilities this one relies on. Missing IDs and self-references are errors; repeats and dependency cycles are warnings (the warning shows the cycle path).</td>
+</tr>
+<tr>
+<td><code>domainId</code></td>
+<td>No</td>
+<td>One optional domain. Domain is separate from ownership.</td>
+</tr>
+<tr>
+<td><code>audienceIds</code></td>
+<td>No</td>
+<td>Business audience membership. It drives the Matrix rows and the data table, and is separate from the proposed DITA audience mapping.</td>
+</tr>
+<tr>
+<td><code>definition</code></td>
+<td>No</td>
+<td><code>purpose</code>, <code>scope</code>, <code>exclusions</code>, <code>outcomes</code>, <code>evidence</code>, <code>notes</code>. Shown in the Capability journey; empty sections show an honest “Not recorded” state.</td>
+</tr>
+<tr>
+<td><code>journey.guidance</code></td>
+<td>No</td>
+<td>Audience-specific guidance keyed by <code>audienceId</code> and <code>levelId</code>. Overrides <code>presentation.defaultGuidance</code> for this capability.</td>
 </tr>
 <tr>
 <td><code>dita</code></td>
-<td>Optional</td>
-<td>Proposed DITA/content metadata. Values are planning notes, not validated publishing configuration.</td>
+<td>No</td>
+<td>Proposed DITA metadata (<code>audience</code>, <code>maturity</code>, <code>ownership</code>). It records intent only and is not a validated CCMS configuration.</td>
+</tr>
+<tr>
+<td><code>extensions</code></td>
+<td>No</td>
+<td>Free-form custom data. Put your own fields here.</td>
 </tr>
 </tbody>
 </table>
-<p>Maturity values are numeric and correspond to positions in the capability’s ordered <code>levels</code> list, starting at zero. The editor supports at least two levels and up to twenty levels. Desktop validation checks that <code>current</code>, <code>target</code>, and milestone maturity values do not exceed the highest level, and it checks that <code>target</code> is not below <code>current</code>; use whole numbers that match the ordered levels.</p>
-<p>If <code>levels</code> is omitted or empty, the application supplies default maturity-level names and descriptions. Explicit level definitions are recommended for project data because they make the rubric portable and visible in exported YAML.</p>
-<p>The model estimates maturity at selected dates by interpolating between the <code>asOf</code> current value, dated milestones, and the target at the end of the timeline. The selected Current and Focus periods are view controls; they do not overwrite these stored anchors.</p>
-<h2 id="ownership-and-dependencies">Ownership and dependencies<a class="headerlink" href="#ownership-and-dependencies" title="Permanent link">&para;</a></h2>
-<p>Ownership uses fixed IDs and editable labels. Use <code>appliance</code> for the product-side owner and <code>federated</code> for the wider-environment owner; changing the display labels in settings does not change those IDs.</p>
-<p>Each dependency must refer to a capability ID in the same document. A record cannot depend on itself, and desktop validation rejects missing dependency IDs; the validator does not check dependency cycles or determine whether an upstream capability is ready.</p>
-<pre class="mermaid"><code>flowchart LR
-    A["deployment-metadata"] --&gt;|"prerequisite for"| B["content-service"]
-    B --&gt;|"prerequisite for"| C["contextual-guidance"]</code></pre>
-<p>In the YAML, the dependent record contains the IDs of its prerequisites. For example, <code>contextual-guidance</code> lists <code>content-service</code> in its own <code>dependencies</code> array, while the diagram draws the arrow from the prerequisite to the dependent capability.</p>
-<h2 id="dita-planning-metadata">DITA planning metadata<a class="headerlink" href="#dita-planning-metadata" title="Permanent link">&para;</a></h2>
-<p>The optional <code>dita</code> value is an object for proposed content annotations. The bundled example uses <code>audience</code>, <code>maturity</code>, and <code>ownership</code>, but the current app does not validate those values against a DITA content model.</p>
-<p>Do not treat these fields as approved DITA attributes, production DITAVAL filters, or a validated CCMS configuration. The tool does not call the CCMS, deploy embedded content, or generate PDF manuals; validate all proposed mappings with the content team before using them in a publishing workflow.</p>
-<h2 id="validation-behavior">Validation behavior<a class="headerlink" href="#validation-behavior" title="Permanent link">&para;</a></h2>
-<p>The React importer requires a nonempty capability list, unique nonempty IDs, nonempty names, and nonnegative numeric current and target values. It normalizes omitted optional fields and unknown owner IDs; do not rely on those defaults for project data.</p>
-<p>In the Tauri desktop app, the Python sidecar additionally checks that targets are not below current values, levels contain at least two named entries, maturity values fit the level list, owner IDs are valid, and dependencies refer to existing IDs without self-reference. However, the React importer normalizes missing or unrecognized owner values to <code>appliance</code> before the sidecar receives them, so an owner typo may not be reported as an error. Supply <code>appliance</code> or <code>federated</code> explicitly. A failed import or edit is reported and the active document remains unchanged.</p>
-<p>The browser preview does not run the sidecar and does not provide equivalent cross-record validation. It does not reject a target below current maturity or a missing dependency reference, and it normalizes unknown owner IDs to <code>appliance</code>; these values can produce misleading planning data. Validate the YAML in the desktop app before using the browser preview for planning.</p>
-<p>The current importer does not enforce the <code>version</code> value, reject dependency cycles, verify that audience IDs in DITA metadata exist in settings, or validate DITA attributes. Treat these as analyst review responsibilities.</p>
-<h2 id="prepare-and-import-a-file">Prepare and import a file<a class="headerlink" href="#prepare-and-import-a-file" title="Permanent link">&para;</a></h2>
-<p>Create a project copy of the sample, replace all illustrative records, preserve stable IDs, and check every dependency after editing or removing capabilities. Keep the project’s maturity rubric and audience descriptions alongside the YAML so reviewers can understand the values rather than infer their meaning from the chart.</p>
-<p>Save the file with a <code>.yaml</code> or <code>.yml</code> extension, then choose <strong>Import YAML</strong> in the application. Desktop validation is recommended before the first planning review; after changes in either runtime, choose <strong>Export YAML</strong> to create <code>capability-ownership.yaml</code> and keep that exported version in the project’s approved document store.</p>
+<p>Maturity at any date is calculated from the <code>asOf</code> anchor, dated milestones and the target at the last segment, rounding the linear interpolation between points. The Current and Focus selectors only inspect dates; they never move the anchors.</p>
+<p>Reordering or removing levels in the app remaps <code>current</code>, <code>target</code>, milestones and guidance through level IDs and previews the effect before you apply it.</p>
+<h2 id="domains-time-segments-presentation-and-map-views">Domains, time segments, presentation and map views<a class="headerlink" href="#domains-time-segments-presentation-and-map-views" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Fields</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domains</code></td>
+<td><code>id</code>, <code>name</code>, <code>description</code>, <code>color</code> (<code>#rrggbb</code>)</td>
+<td>A domain may contain capabilities with either owner; the map draws one region per owner.</td>
+</tr>
+<tr>
+<td><code>timeSegments</code></td>
+<td><code>date</code>, <code>label</code>, <code>description</code></td>
+<td>Overrides only. Segments are generated from the timeline and identified by their start date. Overrides for dates outside the current timeline are kept (hidden), so a granularity change never deletes them.</td>
+</tr>
+<tr>
+<td><code>presentation.journeySections</code></td>
+<td><code>id</code>, <code>label</code>, <code>visible</code></td>
+<td>Section IDs: <code>purpose</code>, <code>scope</code>, <code>exclusions</code>, <code>outcomes</code>, <code>evidence</code>, <code>notes</code>, <code>stageCriteria</code>, <code>audienceGuidance</code>. Omitted sections keep their default label and are visible.</td>
+</tr>
+<tr>
+<td><code>presentation.defaultGuidance</code></td>
+<td><code>audienceId</code>, <code>levelId</code>, <code>text</code></td>
+<td>Reusable guidance shown for any capability that has a level with that ID. A level ID used by no capability is a warning.</td>
+</tr>
+<tr>
+<td><code>presentation.dataTable</code></td>
+<td><code>xAxis</code>, <code>yAxis</code>, <code>filters</code></td>
+<td>Saved data-table layout. Axes are <code>capability</code>, <code>maturity</code>, <code>audience</code>, <code>domain</code> or <code>time</code> and must differ.</td>
+</tr>
+<tr>
+<td><code>mapViews</code></td>
+<td><code>id</code>, <code>name</code>, <code>layoutSeed</code>, <code>layoutVersion</code>, <code>viewport</code>, <code>filters</code>, <code>selectedCapabilityId</code>, <code>audienceId</code>, <code>currentDate</code>, <code>focusDate</code>, <code>placements</code></td>
+<td>Named domain-map views. <code>viewport.zoom</code> must be greater than zero; coordinates must be finite numbers. Each placement remembers a node position for one owner/domain context (<code>cap:&lt;id&gt;</code> in <code>appliance/&lt;domain&gt;</code> and so on), so a card returns to where you left it when the Focus date brings it back to that context. References to deleted records are warnings and are pruned when the view opens.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<p>Validation runs on the raw file before anything is applied, in three layers:</p>
+<ol>
+<li><strong>Version gate.</strong> Missing, version 1 (migration needed) and newer versions are reported first.</li>
+<li><strong>Structure.</strong> The <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/schema/capability-project.schema.json">JSON Schema</a> generated from the Python (Pydantic) contract checks required fields, types, whole numbers, enums, formats and bounds. Values are never coerced: <code>"3"</code>, <code>1.5</code> and <code>true</code> are not maturity values.</li>
+<li><strong>Cross-record rules.</strong> Unique IDs, existing references, maturity within each capability's levels, target ≥ current, real calendar dates, timeline ranges, milestone collisions, guidance references, distinct table axes, map-view references and dependency cycles.</li>
+</ol>
+<p>Fields the format does not define are reported as warnings and kept, never dropped; move custom data under <code>extensions</code> to silence the warning.</p>
+<p>Errors block an import or an applied change; warnings do not. Each issue names its severity, a code, the record (<code>entityType</code>, <code>entityId</code>), the field <code>path</code> (for example <code>capabilities.0.target</code>) and a corrective message. In the Data workspace, selecting an issue opens the record and focuses the field.</p>
+<p>The browser and the desktop app apply the same rules: the browser uses the generated schema and a twin of the Python rules, and a shared set of fixtures holds both to identical results. In the desktop app, the Python sidecar validates every change again before it is saved. The exported JSON Schema covers structure only; cross-record rules need the application validator.</p>
+<h2 id="migrating-version-1">Migrating version 1<a class="headerlink" href="#migrating-version-1" title="Permanent link">&para;</a></h2>
+<p>Import a version 1 file (or one with no <code>version</code> and a <code>capabilities</code> list) to migrate it. The app shows a preview first, then:</p>
+<ul>
+<li>assigns a new project ID and level IDs (from level names);</li>
+<li>keeps owner labels, audiences, timeline settings and every capability field;</li>
+<li>copies each capability's <code>dita.audience</code> into <code>audienceIds</code> (the DITA mapping itself is kept);</li>
+<li>adds the version 1 default levels to capabilities that had none, and <code>appliance</code> for a missing owner;</li>
+<li>starts domains, segment overrides and map views empty.</li>
+</ul>
+<p>Invalid values are carried over unchanged so validation reports them. The original bytes are kept as <code>original-v1.yaml</code> beside the new project (desktop) or in the session (browser). On first launch, the desktop app migrates an earlier single <code>capabilities.yaml</code> once and leaves that file in place.</p>
+<h2 id="csv-interchange">CSV interchange<a class="headerlink" href="#csv-interchange" title="Permanent link">&para;</a></h2>
+<p>CSV export is lossless and re-importable. It uses one versioned file with the columns <code>format_version,record_type,record_id,parent_id,payload_json</code>, UTF-8 and standard CSV quoting. Record types are <code>project</code>, <code>settings</code>, <code>presentation</code>, <code>extensions</code>, <code>document</code> (unknown top-level fields), <code>domain</code>, <code>time-segment</code>, <code>capability</code> and <code>map-view</code>; nested values stay JSON in <code>payload_json</code>.</p>
+<p>Import shows the record counts and any errors first, and rebuilds and validates the whole document before applying it. Unsupported format versions, unknown record types, duplicate rows and a <code>record_id</code> that disagrees with its payload are rejected. Third-party column layouts are not supported.</p>
+<p>The <strong>Export table report</strong> button in the Data workspace writes a readable CSV of the current table. That file is a report and cannot be imported.</p>
 
 
 

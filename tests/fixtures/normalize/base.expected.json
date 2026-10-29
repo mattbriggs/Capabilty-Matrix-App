@@ -1,0 +1,313 @@
+{
+  "version": 2,
+  "project": {
+    "id": "prj-fixture",
+    "name": "Fixture",
+    "description": "",
+    "createdAt": "2026-10-29T00:00:00Z",
+    "updatedAt": "2026-10-29T00:00:00Z"
+  },
+  "settings": {
+    "ownerLabels": {
+      "appliance": "Appliance",
+      "federated": "Federated"
+    },
+    "audiences": [
+      {
+        "id": "client",
+        "label": "Client",
+        "description": "",
+        "need": ""
+      },
+      {
+        "id": "consultant",
+        "label": "Consultant",
+        "description": "",
+        "need": ""
+      }
+    ],
+    "timeline": {
+      "granularity": "quarter",
+      "start": "2026-01-01",
+      "periods": 5,
+      "asOf": "2026-04-01"
+    }
+  },
+  "capabilities": [
+    {
+      "id": "alpha",
+      "name": "Alpha",
+      "summary": "",
+      "decision": "",
+      "owner": "appliance",
+      "futureOwner": "federated",
+      "handoffDate": "2026-10-01",
+      "current": 0,
+      "target": 2,
+      "levels": [
+        {
+          "id": "l0",
+          "name": "Zero",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        },
+        {
+          "id": "l1",
+          "name": "One",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        },
+        {
+          "id": "l2",
+          "name": "Two",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        }
+      ],
+      "milestones": [
+        {
+          "date": "2026-07-01",
+          "maturity": 1,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        "beta"
+      ],
+      "domainId": "core",
+      "audienceIds": [
+        "client"
+      ],
+      "definition": {
+        "purpose": "",
+        "scope": "",
+        "exclusions": "",
+        "outcomes": "",
+        "evidence": "",
+        "notes": ""
+      },
+      "journey": {
+        "guidance": [
+          {
+            "audienceId": "client",
+            "levelId": "l1",
+            "text": "First help."
+          }
+        ]
+      },
+      "dita": {
+        "audience": [],
+        "maturity": null,
+        "ownership": null
+      },
+      "extensions": {}
+    },
+    {
+      "id": "beta",
+      "name": "Beta",
+      "summary": "",
+      "decision": "",
+      "owner": "federated",
+      "futureOwner": "federated",
+      "handoffDate": null,
+      "current": 1,
+      "target": 1,
+      "levels": [
+        {
+          "id": "l0",
+          "name": "Zero",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        },
+        {
+          "id": "l1",
+          "name": "One",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        }
+      ],
+      "milestones": [],
+      "dependencies": [],
+      "domainId": null,
+      "audienceIds": [],
+      "definition": {
+        "purpose": "",
+        "scope": "",
+        "exclusions": "",
+        "outcomes": "",
+        "evidence": "",
+        "notes": ""
+      },
+      "journey": {
+        "guidance": []
+      },
+      "dita": {
+        "audience": [],
+        "maturity": null,
+        "ownership": null
+      },
+      "extensions": {}
+    },
+    {
+      "id": "gamma",
+      "name": "Gamma",
+      "summary": "",
+      "decision": "",
+      "owner": "appliance",
+      "futureOwner": "appliance",
+      "handoffDate": null,
+      "current": 0,
+      "target": 0,
+      "levels": [
+        {
+          "id": "l0",
+          "name": "Zero",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        },
+        {
+          "id": "l1",
+          "name": "One",
+          "description": "",
+          "outcomes": "",
+          "exitCriteria": ""
+        }
+      ],
+      "milestones": [],
+      "dependencies": [],
+      "domainId": null,
+      "audienceIds": [],
+      "definition": {
+        "purpose": "",
+        "scope": "",
+        "exclusions": "",
+        "outcomes": "",
+        "evidence": "",
+        "notes": ""
+      },
+      "journey": {
+        "guidance": []
+      },
+      "dita": {
+        "audience": [],
+        "maturity": null,
+        "ownership": null
+      },
+      "extensions": {}
+    }
+  ],
+  "domains": [
+    {
+      "id": "core",
+      "name": "Core",
+      "description": "",
+      "color": "#dcefe9"
+    }
+  ],
+  "timeSegments": [],
+  "presentation": {
+    "journeySections": [
+      {
+        "id": "purpose",
+        "label": "Purpose",
+        "visible": true
+      },
+      {
+        "id": "scope",
+        "label": "Scope and inclusions",
+        "visible": true
+      },
+      {
+        "id": "exclusions",
+        "label": "Exclusions",
+        "visible": true
+      },
+      {
+        "id": "outcomes",
+        "label": "Outcomes",
+        "visible": true
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence and references",
+        "visible": true
+      },
+      {
+        "id": "notes",
+        "label": "Notes",
+        "visible": true
+      },
+      {
+        "id": "stageCriteria",
+        "label": "Stage outcomes and exit criteria",
+        "visible": true
+      },
+      {
+        "id": "audienceGuidance",
+        "label": "Why it matters at each stage",
+        "visible": true
+      }
+    ],
+    "defaultGuidance": [
+      {
+        "audienceId": "consultant",
+        "levelId": "l0",
+        "text": "Default."
+      }
+    ],
+    "dataTable": {
+      "xAxis": "capability",
+      "yAxis": "audience",
+      "filters": {
+        "search": "",
+        "capabilityIds": []
+      }
+    }
+  },
+  "mapViews": [
+    {
+      "id": "main",
+      "name": "Main",
+      "layoutSeed": 1,
+      "layoutVersion": 1,
+      "viewport": {
+        "x": 0.0,
+        "y": 0.0,
+        "zoom": 1.0
+      },
+      "filters": {
+        "owners": [],
+        "domainIds": [],
+        "search": ""
+      },
+      "selectedCapabilityId": null,
+      "audienceId": null,
+      "currentDate": null,
+      "focusDate": null,
+      "placements": [
+        {
+          "nodeId": "cap:alpha",
+          "context": "appliance/core",
+          "x": 10.0,
+          "y": 20.0,
+          "pinned": true
+        }
+      ]
+    }
+  ],
+  "extensions": {
+    "anything": {
+      "goes": [
+        1,
+        2,
+        3
+      ]
+    }
+  }
+}

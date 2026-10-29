@@ -469,6 +469,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#use-the-data-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the Data workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#configure-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -785,6 +796,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#use-the-data-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the Data workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#configure-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -893,8 +915,8 @@
 <li><strong>Identify the evidence and participants.</strong> List relevant product documentation, service catalogs, architecture diagrams, operating procedures, road maps, support data, and subject-matter experts. The application does not collect these sources for you.</li>
 <li><strong>Reconcile the evidence.</strong> Confirm capability names and boundaries with the people who deliver, use, fund, advise on, and govern the work. Record source, date, owner, confidence, and disagreement in your working notes so a maturity score can be traced to evidence.</li>
 <li><strong>Define the model.</strong> Agree on capability IDs, capability descriptions, maturity-level names and descriptions, the meaning of ownership, dependency semantics, audience perspectives, and the timeline before assigning scores.</li>
-<li><strong>Create the YAML.</strong> Start from the <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">bundled example</a> or the <a href="../yaml-format/">YAML format reference</a>, then replace the illustrative sample with project-validated records.</li>
-<li><strong>Validate and load the document.</strong> Check the structure and cross-references, then use <strong>Import YAML</strong> in the application. Correct validation errors in the YAML or editor before interpreting the views.</li>
+<li><strong>Create the project.</strong> In <strong>Projects</strong>, create an empty project (or a copy of the sample) and enter records in the <strong>Data workspace</strong>, or prepare YAML from the <a href="../yaml-format/">YAML format reference</a> and import it.</li>
+<li><strong>Validate the data.</strong> Correct every error in the Data workspace's <strong>Validation</strong> panel or the import preview before interpreting the views; review warnings such as dependency cycles.</li>
 <li><strong>Use the views to plan.</strong> Compare an audience’s needs in the Matrix, examine one capability’s path in the Journey, and test its dependencies and ownership boundary on the Domain map.</li>
 <li><strong>Record and review decisions.</strong> Update the relevant capability, maturity levels, milestones, dependencies, owners, and settings. Have the appropriate stakeholders challenge the assumptions and proposed handoffs.</li>
 <li><strong>Export the reviewed data.</strong> Use <strong>Export YAML</strong> to create a portable snapshot, check it into the project’s approved document store, and use that version as the starting point for the next review.</li>
@@ -920,12 +942,17 @@
 <p><strong>Information type: Concept.</strong> The header’s <strong>Current</strong> and <strong>Focus</strong> controls select the two periods compared in the views, and either period can be before or after the other. <strong>Current</strong> is the reference date and <strong>Focus</strong> is the date being compared; neither control is a current/future switch, and changing them for an analysis does not rewrite the YAML <code>asOf</code> anchor.</p>
 <p><strong>Information type: Principle.</strong> A timeline should match the way the planning group makes commitments. Choose monthly detail only when decisions can be meaningfully made at that cadence; otherwise, use quarters, half-years, or years to avoid suggesting more precision than the evidence supports.</p>
 <h2 id="3-prepare-the-yaml-document">3. Prepare the YAML document<a class="headerlink" href="#3-prepare-the-yaml-document" title="Permanent link">&para;</a></h2>
-<p><strong>Information type: Structure.</strong> YAML is the canonical capability document that the application imports and exports. The exported format is a versioned object containing <code>settings</code> and a nonempty <code>capabilities</code> list; the application also accepts a bare list of capabilities, but the object form preserves the project settings and is the recommended format.</p>
+<p><strong>Information type: Structure.</strong> YAML is the canonical project document. One version 2 document is one project: it holds an immutable <code>project</code> identity, <code>settings</code>, and the project's capabilities, domains, time-segment notes, presentation settings and saved map views. Any collection may be empty, so a new project can start with no capabilities.</p>
 <pre class="mermaid"><code>classDiagram
     class CapabilityDocument {
-      +version: 1
+      +version: 2
+      +project: Project
       +settings: Settings
       +capabilities: Capability[]
+      +domains: Domain[]
+      +timeSegments: SegmentOverride[]
+      +presentation: Presentation
+      +mapViews: MapView[]
     }
     class Settings {
       +ownerLabels: OwnerLabels
@@ -936,32 +963,45 @@
       +id: string
       +name: string
       +summary: string
-      +current: number
-      +target: number
+      +current: integer
+      +target: integer
       +owner: appliance | federated
       +futureOwner: appliance | federated
       +handoffDate: ISO date
       +levels: Level[]
       +milestones: Milestone[]
       +dependencies: string[]
+      +domainId: string
+      +audienceIds: string[]
+      +definition: Definition
       +decision: string
       +dita: object
     }
     class Level {
+      +id: string
       +name: string
       +description: string
+      +outcomes: string
+      +exitCriteria: string
     }
     class Milestone {
       +date: ISO date
-      +maturity: number
+      +maturity: integer
+      +note: string
     }
     CapabilityDocument *-- Settings
     CapabilityDocument *-- Capability
     Capability *-- Level
     Capability *-- Milestone
-    Capability ..&gt; Capability : depends on</code></pre>
+    Capability ..&gt; Capability : depends on
+    Capability ..&gt; Domain : belongs to</code></pre>
 <p><strong>Information type: Example.</strong> The following excerpt shows a capability with the principal planning fields. Use the complete <a href="../yaml-format/">YAML format reference</a> for settings, levels, dates, and validation details.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">project</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prj-k3m9x2q7aa1b</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guidance roadmap</span>
+<span class="w">  </span><span class="nt">createdAt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-29T09:00:00Z</span>
+<span class="w">  </span><span class="nt">updatedAt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-29T09:00:00Z</span>
 <span class="nt">settings</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">ownerLabels</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">appliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Appliance</span>
@@ -986,21 +1026,29 @@
 <span class="w">    </span><span class="nt">futureOwner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">federated</span>
 <span class="w">    </span><span class="nt">handoffDate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2028-10-01</span>
 <span class="w">    </span><span class="nt">decision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Agree on the handoff to the shared content service.</span>
+<span class="w">    </span><span class="nt">domainId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guidance</span>
+<span class="w">    </span><span class="nt">audienceIds</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">client</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">dependencies</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment-metadata</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content-service</span>
 <span class="w">    </span><span class="nt">levels</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Emerging</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">emerging</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Emerging</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Explore the need.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Initial</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Initial</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Describe the capability.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Defined</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">defined</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Defined</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Define the model.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Managed</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">managed</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Managed</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Operate a first version.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measured</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">measured</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measured</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Measure outcomes.</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Optimized</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">optimized</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Optimized</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Optimize the handoff.</span>
 <span class="w">    </span><span class="nt">milestones</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2027-10-01</span>
@@ -1010,14 +1058,17 @@
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client</span>
 <span class="w">      </span><span class="nt">maturity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phase-3</span>
 <span class="w">      </span><span class="nt">ownership</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">appliance-native</span>
+<span class="nt">domains</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guidance</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guidance and content</span>
 </code></pre></div>
 <p><strong>Information type: Procedure.</strong> Create a project copy of the bundled example, then replace its illustrative values instead of editing the only copy. Give each capability a unique, stable ID; write a concise name and summary; set <code>current</code> and <code>target</code>; specify both owners; add known dependencies; and record the rationale in <code>decision</code>.</p>
-<p><strong>Information type: Procedure.</strong> Add explicit <code>levels</code> when the project has an approved maturity rubric, because the editor and desktop validator use those definitions to interpret maturity values. Add <code>milestones</code> only when there is evidence or an agreed planning event at a date between the current anchor and target horizon; save dates as ISO <code>YYYY-MM-DD</code> values.</p>
+<p><strong>Information type: Procedure.</strong> Define <code>levels</code> from the project's approved maturity rubric; <code>current</code>, <code>target</code> and milestone values are whole-number ranks into that list, and validation rejects values outside it. Add <code>milestones</code> only when there is evidence or an agreed planning event at a date between the current anchor and target horizon; save dates as ISO <code>YYYY-MM-DD</code> values.</p>
 <p><strong>Information type: Procedure.</strong> Add <code>settings</code> when the project needs audience-specific wording, custom owner labels, or a different planning horizon. Keep the built-in owner IDs <code>appliance</code> and <code>federated</code> even when their visible labels are renamed, and make sure each audience has a stable <code>id</code>, label, role description, and stated need.</p>
 <p><strong>Information type: Principle.</strong> Treat the <code>dita</code> object as proposed content metadata, not as a validated CCMS configuration. Record only mapping hypotheses that the content team can review, and do not interpret the example’s audience, maturity, or ownership tags as approved filter rules.</p>
 <h2 id="4-start-the-application-and-import-data">4. Start the application and import data<a class="headerlink" href="#4-start-the-application-and-import-data" title="Permanent link">&para;</a></h2>
 <h3 id="choose-a-runtime">Choose a runtime<a class="headerlink" href="#choose-a-runtime" title="Permanent link">&para;</a></h3>
-<p><strong>Information type: Concept.</strong> The browser preview and the Tauri desktop app use the same planning interface but have different persistence and validation behavior. The browser keeps changes in memory until export and does not run the Python sidecar; the desktop app loads its saved YAML when present, validates changes with the sidecar, and saves successful changes in its application data directory.</p>
+<p><strong>Information type: Concept.</strong> The browser preview and the Tauri desktop app use the same interface and the same validation rules but different storage. The browser keeps projects in the current tab only, so export them before refreshing or closing it. The desktop app stores each project as <code>&lt;app-data&gt;/projects/&lt;project-id&gt;/capabilities.yaml</code>, validates every change again with the Python sidecar, and reports <strong>Saved</strong> only after the file is written.</p>
 <p><strong>Information type: Procedure.</strong> To run the browser preview, install the project dependencies and start Vite from the repository root.</p>
 <div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install
 npm<span class="w"> </span>run<span class="w"> </span>dev
@@ -1029,15 +1080,15 @@ npm<span class="w"> </span>install
 npm<span class="w"> </span>run<span class="w"> </span>sidecar:build
 npm<span class="w"> </span>run<span class="w"> </span>tauri<span class="w"> </span>dev
 </code></pre></div>
-<p><strong>Information type: Procedure.</strong> Import project data by choosing <strong>Import YAML</strong> in the application header and selecting a <code>.yaml</code> or <code>.yml</code> file. A successful import replaces the active capability set, selects the first capability in the file, and resets the comparison periods to the settings’ <code>asOf</code> date and the final timeline period.</p>
-<p><strong>Information type: Fact.</strong> A failed import reports an error and does not replace the active set. Desktop validation checks the capability list, maturity range and levels, and dependency references, but the importer normalizes missing or unrecognized owner values to <code>appliance</code> before validation; provide the IDs <code>appliance</code> or <code>federated</code> explicitly. Browser validation is weaker and does not check all cross-record relationships, so validate project files in the desktop app before relying on them.</p>
+<p><strong>Information type: Procedure.</strong> Import project data by choosing <strong>Import</strong> in the header (or <strong>Import YAML or CSV</strong> in Projects) and selecting a <code>.yaml</code>, <code>.yml</code> or <code>.csv</code> file. The app previews the record counts and any issues before writing anything. If the file has the same project ID as an existing project, choose <strong>Open existing</strong>, <strong>Replace existing</strong> or <strong>Import as copy</strong>; nothing is merged. A version 1 file shows a migration preview and keeps the original bytes.</p>
+<p><strong>Information type: Fact.</strong> An import with errors is not applied. Choose <strong>Fix in source editor</strong> to correct the YAML with live validation, then check it again. Invalid values such as an owner typo or a fractional maturity are reported, never silently replaced.</p>
 <h2 id="5-navigate-the-screens">5. Navigate the screens<a class="headerlink" href="#5-navigate-the-screens" title="Permanent link">&para;</a></h2>
-<p><strong>Information type: Structure.</strong> The interface keeps one planning context across the three views: the selected capability, selected audience perspective, Current reference period, and Focus comparison period. The sidebar changes the view without resetting that context, while the header controls select the capability, perspective, timeline granularity, and comparison periods.</p>
+<p><strong>Information type: Structure.</strong> The interface keeps one planning context across the three views and the two management screens: the selected capability, selected audience perspective, Current reference period, and Focus comparison period. The sidebar changes the view without resetting that context, while the header controls select the capability, perspective, timeline granularity, and comparison periods.</p>
 <pre class="mermaid"><code>flowchart TB
     subgraph Shell["Application shell"]
-      S["Sidebar: Matrix / Capability journey / Domain map"]
+      S["Sidebar: Matrix / Capability journey / Domain map · Manage: Data workspace / Projects"]
       H["Header: capability · perspective · granularity · Current · Focus"]
-      A["Actions: Content mapping · Settings · Import YAML · Export YAML · Print report · Edit capability"]
+      A["Actions: Undo · Content mapping · Settings · Import · Export YAML · Print report · Edit capability"]
       V["Active view"]
       S --&gt; V
       H --&gt; V
@@ -1060,9 +1111,9 @@ npm<span class="w"> </span>run<span class="w"> </span>tauri<span class="w"> </sp
       M5 --- M2
     end</code></pre>
 <p><strong>Information type: Procedure.</strong> To inspect a capability in the Matrix, choose it from the <strong>Selected capability</strong> control or select its bar. Choose an audience under <strong>Perspective</strong>, set <strong>Current</strong> and <strong>Focus</strong> to the dates you want to compare, and read the audience need, dependencies, ownership decision, and maturity markers in the adjacent panel.</p>
-<p><strong>Information type: Fact.</strong> Matrix bar placement is partly configured for the bundled sample, and imported data may not be represented as a complete, project-authored audience layout. Check that the relevant bars appear and make sense for your project before treating their placement as a planning conclusion.</p>
+<p><strong>Information type: Fact.</strong> Each audience row shows every capability whose <code>audienceIds</code> include that audience. A bar starts at the capability's maturity at the Current date and reaches its target (or its Focus maturity, if higher). Capabilities with no audience appear in an <strong>Unassigned</strong> row.</p>
 <h3 id="capability-journey">Capability journey<a class="headerlink" href="#capability-journey" title="Permanent link">&para;</a></h3>
-<p><strong>Information type: Concept.</strong> The Capability journey is the detail screen for one capability’s maturity definition and planned path. It combines maturity-level descriptions, the values at Current and Focus, an ownership ribbon, dependencies, audience impact lanes, and the scope decision.</p>
+<p><strong>Information type: Concept.</strong> The Capability journey is the detail screen for one capability’s maturity definition and planned path. It combines maturity-level descriptions, stage outcomes and exit criteria, the values at Current and Focus, an ownership ribbon, the definition sections (purpose, scope, exclusions, outcomes, evidence, notes), dependencies, audience guidance by stage, and the scope decision. Section labels and visibility are configured in <strong>Settings</strong>; missing content shows a “Not recorded” state rather than sample prose.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph Journey["Capability journey screen"]
       J1["Capability name, summary, scope decision"]
@@ -1101,14 +1152,18 @@ npm<span class="w"> </span>run<span class="w"> </span>tauri<span class="w"> </sp
       D6 --&gt; D7
     end</code></pre>
 <p><strong>Information type: Procedure.</strong> To trace a relationship, select a node and inspect the selected-capability panel for upstream dependencies, the current and future owner decision, and the maturity at Focus. Choose <strong>Resolve ownership</strong> to open the capability editor, clarify the decision with the relevant owners, and save the agreed change.</p>
-<p><strong>Information type: Fact.</strong> The map’s node positions are generated for the bundled capabilities and arranged heuristically for other records. Treat the map as a dependency and ownership discussion aid, not a formally governed architecture diagram.</p>
+<p><strong>Information type: Procedure.</strong> Owners appear as anchor nodes, each domain as a labelled region connected to its owner at the Focus date, and capabilities without a domain in an <strong>Unassigned</strong> region. Drag a card to pin it; use the zoom buttons, scroll or pinch, <strong>Fit all</strong> and <strong>Fit selection</strong> to navigate. Save the arrangement as a named view (<strong>Save</strong>, <strong>Save as…</strong>, <strong>Rename</strong>, <strong>Duplicate</strong>, <strong>Delete</strong>). <strong>Rebuild layout</strong> previews a new organic arrangement that keeps pinned cards unless you choose to reset them; apply or cancel it, and use <strong>Undo layout</strong> to go back.</p>
+<p><strong>Information type: Fact.</strong> Positions are remembered per owner/domain context, so a card that changes owner at a later Focus date returns to its earlier spot when you move Focus back. Treat the map as a dependency and ownership discussion aid, not a formally governed architecture diagram.</p>
 <h2 id="6-edit-the-project-and-its-settings">6. Edit the project and its settings<a class="headerlink" href="#6-edit-the-project-and-its-settings" title="Permanent link">&para;</a></h2>
 <h3 id="edit-a-capability">Edit a capability<a class="headerlink" href="#edit-a-capability" title="Permanent link">&para;</a></h3>
-<p><strong>Information type: Procedure.</strong> To update a capability, choose <strong>Edit capability</strong> from any view, make the agreed changes, and choose <strong>Save changes</strong>. The editor covers the capability name, summary, current and target maturity, current and future owners, handoff period, scope decision, timeline milestones, and direct dependencies.</p>
-<p><strong>Information type: Fact.</strong> The graphical editor edits existing capability records; it does not create or delete capabilities. Prepare new capability records in the YAML before importing them, and remove a capability from the YAML only after updating every dependency that points to its ID.</p>
+<p><strong>Information type: Procedure.</strong> To update a capability, choose <strong>Edit capability</strong> from any view, make the agreed changes, and choose <strong>Apply changes</strong>. The tray covers name, summary, scope decision, maturity, owners, handoff period, milestones, domain, audiences, definition sections, audience guidance and dependencies. Fields are checked as you type; errors block <strong>Apply</strong>, and the draft stays marked <strong>Unsaved draft</strong> until you apply or discard it. <strong>Undo</strong> in the header reverses the last applied change.</p>
+<h3 id="use-the-data-workspace">Use the Data workspace<a class="headerlink" href="#use-the-data-workspace" title="Permanent link">&para;</a></h3>
+<p><strong>Information type: Procedure.</strong> Choose <strong>Data workspace</strong> to create, edit and delete capabilities, maturity levels, audiences, domains and time segments, or to edit the YAML source directly. Choose a record to open its tray. Deleting a record first lists everything that refers to it and asks you to remove or reassign those references; nothing cascades silently.</p>
+<p><strong>Information type: Procedure.</strong> In <strong>Relationship table</strong>, choose any two different dimensions for rows and columns (capability, maturity stage, audience, domain, time segment) and use <strong>Swap</strong> to exchange them. Each cell lists the capabilities that share both headings; an empty cell means no recorded relationship, not zero maturity. Choose a heading to edit that record, a capability to edit it, or <strong>Edit relationship</strong> actions such as adding an audience membership. The Maturity stage axis needs a capability filter because stage definitions belong to each capability. With Time segment on an axis, maturity and owner are calculated at each segment start; edit the dated milestone rather than the number.</p>
+<p><strong>Information type: Procedure.</strong> The <strong>Validation</strong> panel lists every issue with its severity and a corrective message. Search or filter it, and choose an issue to open the record with the offending field focused.</p>
 <p><strong>Information type: Procedure.</strong> To represent an intermediate event or planned step, add a timeline milestone, select its date, and enter the maturity value that applies then. Current maturity is anchored at <code>settings.timeline.asOf</code>, target maturity is anchored at the final timeline period, and the application estimates intervening maturity by interpolating between dated points.</p>
 <h3 id="configure-settings">Configure Settings<a class="headerlink" href="#configure-settings" title="Permanent link">&para;</a></h3>
-<p><strong>Information type: Procedure.</strong> Choose <strong>Settings</strong> to change the displayed names for the Appliance and Federated owners, edit or add audience perspectives, or set the timeline’s granularity, number of periods, start date, and <code>asOf</code> reference date. Choose <strong>Save settings</strong> to validate and apply the settings to the shared views.</p>
+<p><strong>Information type: Procedure.</strong> Choose <strong>Settings</strong> to change the displayed names for the Appliance and Federated owners, open or add audience perspectives, open the timeline, and rename, reorder or hide the Capability journey sections. Timeline changes (granularity, number of periods, start date and <code>asOf</code>) show an impact preview of milestones, handoffs and segment notes that would fall outside the new range.</p>
 <p><strong>Information type: Fact.</strong> Timeline granularity can be monthly, quarterly, biannual, or yearly, and the number of periods must be from two through sixty. Dates are stored as ISO strings, so changing the granularity changes period labels and the displayed span without changing the stored milestone dates.</p>
 <p><strong>Information type: Principle.</strong> Edit <code>asOf</code> only when the project’s definition of the current maturity anchor changes; use the header’s Current selector to compare a different reference period for an analysis. This distinction preserves the meaning of the source rating while still allowing the group to examine a different time slice.</p>
 <h3 id="review-content-mapping">Review Content mapping<a class="headerlink" href="#review-content-mapping" title="Permanent link">&para;</a></h3>
@@ -1136,19 +1191,19 @@ npm<span class="w"> </span>run<span class="w"> </span>tauri<span class="w"> </sp
 <p><strong>Information type: Procedure.</strong> Continue in the Domain map by tracing each prerequisite to its owner and checking whether the proposed handoff leaves an unowned responsibility. Record the agreed owner, handoff period, dependency, or unresolved decision in the capability editor, and obtain confirmation from the affected owners.</p>
 <p><strong>Information type: Principle.</strong> Treat the result as a versioned planning snapshot, not as proof that future work has happened. Keep the evidence and approval record with the project’s normal decision artifacts, and update the YAML only when the responsible people agree that the plan or its supporting facts have changed.</p>
 <h2 id="8-save-export-and-reuse-data">8. Save, export, and reuse data<a class="headerlink" href="#8-save-export-and-reuse-data" title="Permanent link">&para;</a></h2>
-<p><strong>Information type: Concept.</strong> Exported YAML is the portable project artifact that preserves capability records and settings for reuse. The printed view is a meeting aid for the active screen, while the YAML is the structured source needed to continue editing, compare versions, or transfer the planning model.</p>
-<p><strong>Information type: Procedure.</strong> Choose <strong>Export YAML</strong> to download the current document as <code>capability-ownership.yaml</code>. Save that file in the project’s approved repository or document store, include the review date and decision context in the surrounding project record, and use the exported file as the starting point for the next cycle.</p>
-<p><strong>Information type: Fact.</strong> In the browser preview, edits remain in memory until exported and are lost if the page is refreshed or closed first. In the desktop app, successful imports, capability edits, and settings changes are saved to the Tauri app data file named <code>capabilities.yaml</code>; export remains useful for backup, review, and transfer.</p>
+<p><strong>Information type: Concept.</strong> Exported YAML is the complete portable project, including saved map views; CSV export is an equivalent, re-importable alternative. The printed view is a meeting aid for the active screen, while the YAML is the structured source needed to continue editing, compare versions, or transfer the planning model.</p>
+<p><strong>Information type: Procedure.</strong> Choose <strong>Export YAML</strong> to download the current project as <code>&lt;project-name&gt;.yaml</code> (or use <strong>YAML</strong> or <strong>CSV</strong> beside any project in <strong>Projects</strong>). Save that file in the project’s approved repository or document store, include the review date and decision context in the surrounding project record, and use the exported file as the starting point for the next cycle.</p>
+<p><strong>Information type: Fact.</strong> In the browser preview, projects live in the current tab and are lost if it is refreshed or closed before export; the header shows <strong>Session only · not exported</strong> until you export. In the desktop app, each applied change is saved to the project's managed file. If a save fails or the file changed outside the app, the header offers <strong>Retry</strong>, <strong>Reload from disk</strong> or <strong>Save a copy</strong>, and your working copy is kept. Deleted projects move to the trash in <strong>Projects</strong> and can be restored.</p>
 <p><strong>Information type: Procedure.</strong> Choose <strong>Print report</strong> when stakeholders need a paper or PDF copy of the active view. The desktop app invokes the Tauri print command; the browser preview invokes the browser’s print dialog. Set the capability, perspective, timeline, and active view before printing because the control prints the current view, not a combined report of all three screens.</p>
 <p><strong>Information type: Principle.</strong> Use the exported file as the controlled source for handoffs between analysts and as the input to later planning cycles. Review diffs between exports so changes to maturity, ownership, dependencies, audience definitions, and timeline settings are deliberate and traceable.</p>
 <h2 id="9-troubleshooting-and-guardrails">9. Troubleshooting and guardrails<a class="headerlink" href="#9-troubleshooting-and-guardrails" title="Permanent link">&para;</a></h2>
-<p><strong>Information type: Troubleshooting.</strong> If an import fails, confirm that the file parses as YAML and contains a nonempty <code>capabilities</code> list, then check that every record has a unique nonempty ID, a name, and nonnegative numeric maturity values. In the desktop app, also check that the target is not below current, maturity values fit the levels, owners use the IDs <code>appliance</code> or <code>federated</code>, and every dependency points to another record without a self-reference.</p>
-<p><strong>Information type: Troubleshooting.</strong> If a change appears in the browser but disappears after reopening the page, export the YAML before closing or refreshing; the browser does not save automatically. If the desktop app cannot load or save its document, read the error notification and check that the application can access its Tauri app data directory.</p>
-<p><strong>Information type: Troubleshooting.</strong> If a capability or audience is missing from a view, confirm that the record is in the imported file, that the intended audience is selected, and that the relevant relationship or audience metadata exists. Matrix placement is partly sample-configured, and Journey audience-impact lanes are illustrative for the built-in perspectives, so verify those visual summaries against project evidence.</p>
-<p><strong>Information type: Troubleshooting.</strong> If a dependency is absent from the Domain map, check that the selected capability lists the prerequisite’s exact ID and that the prerequisite is present in the same document. A browser import may not report all broken relationships because the browser preview does not run the Python sidecar; use desktop validation for a relationship check.</p>
+<p><strong>Information type: Troubleshooting.</strong> If an import fails, read the issue list in the preview: each issue names the field path and a corrective action. Common causes are a missing <code>version: 2</code>, a fractional or out-of-range maturity value, an owner other than <code>appliance</code> or <code>federated</code>, an impossible date such as <code>2026-02-30</code>, a milestone on an anchor date, and a dependency, domain or audience ID that does not exist.</p>
+<p><strong>Information type: Troubleshooting.</strong> If a change disappears after reopening the browser preview, export before closing or refreshing; the browser keeps projects only for the session. If a desktop project file was edited outside the app and no longer validates, the app opens it in a repair view with the YAML and its issues; nothing is changed until you apply a valid version.</p>
+<p><strong>Information type: Troubleshooting.</strong> If a capability is missing from a Matrix row, check its audience membership in the Data workspace. If it is missing from the map, check the map filters and the Focus date (ownership can change at the handoff date). Journey guidance appears only where it is recorded for a capability or as a default for that level ID.</p>
+<p><strong>Information type: Troubleshooting.</strong> If a dependency is absent from the Domain map, check that the prerequisite is visible under the current map filters. Missing references are validation errors in both runtimes, so a project with a broken dependency cannot be applied or imported.</p>
 <p><strong>Information type: Guardrail.</strong> Do not describe the example data as client-approved, the DITA panel as a validated CCMS configuration, a printed view as a generated PDF manual, or a visual dependency as an approved architecture decision. Each of those claims requires review and evidence outside the current prototype.</p>
 <h2 id="10-related-reference">10. Related reference<a class="headerlink" href="#10-related-reference" title="Permanent link">&para;</a></h2>
-<p><strong>Information type: Reference.</strong> The <a href="../yaml-format/">YAML format reference</a> defines document fields, accepted values, and validation differences between runtimes. The <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/README.md">project README</a> covers installation, desktop development, and documentation commands.</p>
+<p><strong>Information type: Reference.</strong> The <a href="../yaml-format/">YAML format reference</a> defines document fields, accepted values, CSV interchange, migration and validation. The <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/README.md">project README</a> covers installation, desktop development, and documentation commands.</p>
 
 
 
