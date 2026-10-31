@@ -8,7 +8,13 @@
     "build": "npm run build:app && node scripts/prepare-sites-build.mjs",
     "build:app": "vite build",
     "preview": "vite preview",
+    "test": "npm run test:js && npm run test:py && npm run test:rust",
+    "test:js": "node --test tests/js/*.test.mjs",
+    "test:js:coverage": "node --test --experimental-test-coverage --test-coverage-include='src/domain/**' --test-coverage-include='src/storage/**' --test-coverage-include='src/state/projectService.js' --test-coverage-include='src/features/map/*.js' --test-coverage-exclude='src/features/map/useLayoutRunner.js' --test-coverage-exclude='src/features/map/layout.worker.js' --test-coverage-lines=95 --test-coverage-branches=90 tests/js/*.test.mjs",
+    "test:py": "${PYTHON:-.venv/bin/python} -m pytest",
+    "test:rust": "cd src-tauri && cargo test --lib",
     "test:sites": "node --test tests/sites-worker.test.mjs",
+    "schema": "cd sidecar && ${PYTHON:-../.venv/bin/python} -m capmatrix.schema_export --write",
     "tauri": "tauri",
     "sidecar:build": "bash scripts/build-sidecar.sh"
   },

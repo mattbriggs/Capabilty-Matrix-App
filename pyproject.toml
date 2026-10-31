@@ -1,9 +1,11 @@
 [project]
 name = "capability-matrix-sidecar"
-version = "0.1.0"
+version = "0.2.0"
 description = "Python validation sidecar and documentation tooling for Capability and Ownership Matrix"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pydantic>=2.11,<3",
+]
 
 [project.optional-dependencies]
 build = [
@@ -12,3 +14,17 @@ build = [
 docs = [
     "mkdocs-material>=9.5,<10",
 ]
+test = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "PyYAML>=6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+pythonpath = ["sidecar", "tests/python"]
+addopts = "-p no:cacheprovider --cov=capmatrix --cov-report=term-missing --cov-fail-under=95"
+
+[tool.coverage.run]
+branch = true
+source = ["capmatrix"]

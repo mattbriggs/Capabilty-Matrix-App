@@ -256,10 +256,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-three-views" class="md-nav__link">
+  <a href="#start-with-the-analyst-guide" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The three views
+        Start with the analyst guide
       
     </span>
   </a>
@@ -267,10 +267,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
+  <a href="#one-shared-planning-context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data flow
+        One shared planning context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow and scope
       
     </span>
   </a>
@@ -366,10 +377,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-three-views" class="md-nav__link">
+  <a href="#start-with-the-analyst-guide" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The three views
+        Start with the analyst guide
       
     </span>
   </a>
@@ -377,10 +388,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
+  <a href="#one-shared-planning-context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data flow
+        One shared planning context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow and scope
       
     </span>
   </a>
@@ -405,44 +427,32 @@
 
 
 <h1 id="capability-and-ownership-matrix">Capability and Ownership Matrix<a class="headerlink" href="#capability-and-ownership-matrix" title="Permanent link">&para;</a></h1>
-<p>The Capability and Ownership Matrix is a planning tool for comparing capability maturity, ownership, dependencies, and planned evolution across audiences and domains.</p>
-<h2 id="the-three-views">The three views<a class="headerlink" href="#the-three-views" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>View</th>
-<th>Use it to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Matrix</strong></td>
-<td>Compare capability maturity across audience perspectives.</td>
-</tr>
-<tr>
-<td><strong>Capability journey</strong></td>
-<td>Inspect current and target maturity, dependencies, and ownership for one capability.</td>
-</tr>
-<tr>
-<td><strong>Federated domain map</strong></td>
-<td>Explore capability relationships and appliance/federated boundaries.</td>
-</tr>
-</tbody>
-</table>
-<p>The selected capability, audience perspective, and current/future state remain shared as you navigate between views.</p>
-<h2 id="data-flow">Data flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
+<p>The Capability and Ownership Matrix helps analysts define capability data, compare maturity and ownership across audiences, and plan how responsibilities should evolve. The analyst user guide follows the work from gathering evidence through importing YAML, exploring the screens, recording decisions, and exporting the reviewed plan.</p>
+<h2 id="start-with-the-analyst-guide">Start with the analyst guide<a class="headerlink" href="#start-with-the-analyst-guide" title="Permanent link">&para;</a></h2>
+<p>The <a href="guide/">analyst user guide</a> is the end-to-end manual for building and using a project matrix. It explains the planning lifecycle, how to collect and shape source data, how to use each screen, and how to export and reuse the capability document.</p>
+<p>The <a href="yaml-format/">YAML format reference</a> defines the document structure, settings, capability fields, maturity values, dependencies, timeline dates, and runtime validation differences. Start with the reference when preparing an import file or checking a validation error.</p>
+<h2 id="one-shared-planning-context">One shared planning context<a class="headerlink" href="#one-shared-planning-context" title="Permanent link">&para;</a></h2>
+<p>The application provides three connected views for the same selected capability and audience. The Matrix supports comparison, the Capability journey explains one capability’s progression, and the Federated domain map shows dependencies and ownership boundaries.</p>
 <pre class="mermaid"><code>flowchart LR
-    A["Capability YAML"] --&gt; B["React app"]
-    B --&gt; C["Matrix, journey, and domain map"]
-    B --&gt; D["Python sidecar"]
-    D --&gt; E["Draft manifests"]
-    B --&gt; F["Tauri app data"]
-    B --&gt; G["Export YAML"]</code></pre>
-<p>The app's bundled sample is <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml"><code>src/data/capabilities.yaml</code></a>. Its content is illustrative. Read the <a href="guide/">user guide</a> to configure a project and use the import/export workflow, or the <a href="yaml-format/">YAML format reference</a> to prepare a file.</p>
-<div class="admonition note">
-<p class="admonition-title">Content integration status</p>
-<p>The DITA panel records proposed mappings only. It does not validate a Heretto configuration or publish embedded content or PDF manuals.</p>
-</div>
+    C["Shared context&lt;br/&gt;Capability · Perspective&lt;br/&gt;Current · Focus"] --&gt; M["Matrix"]
+    C --&gt; J["Capability journey"]
+    C --&gt; D["Federated domain map"]
+    M &lt;--&gt; J
+    J &lt;--&gt; D
+    M &lt;--&gt; D</code></pre>
+<p>The <strong>Current</strong> period is the reference point and <strong>Focus</strong> is the comparison point; either may be in the past or future. YAML maturity values are anchored at <code>settings.timeline.asOf</code> and the final timeline period, with optional dated milestones between them.</p>
+<h2 id="data-flow-and-scope">Data flow and scope<a class="headerlink" href="#data-flow-and-scope" title="Permanent link">&para;</a></h2>
+<p>The versioned YAML document is the portable project data source. The browser preview holds changes in memory until export, while the Tauri desktop app validates and saves successful changes in its application data directory.</p>
+<pre class="mermaid"><code>flowchart LR
+    Y["Project YAML"] --&gt; R["React application"]
+    R --&gt; V["Matrix · Journey · Domain map"]
+    R --&gt; I["Import and export"]
+    R --&gt; T["Tauri desktop shell"]
+    T --&gt; P["Python validation sidecar"]
+    T --&gt; S["App data capabilities.yaml"]
+    R -. "proposed metadata only" .-&gt; C["Content mapping review"]
+    C -. "future integration" .-&gt; X["CCMS delivery / PDF manuals"]</code></pre>
+<p>The application does not discover source data, publish to a CCMS, validate a production DITA configuration, or generate PDF manuals. The bundled <a href="https://github.com/mattbriggs/Capabilty-Matrix-App/blob/main/src/data/capabilities.yaml">capability document</a> is illustrative; replace it with project-validated data before planning.</p>
 
 
 
