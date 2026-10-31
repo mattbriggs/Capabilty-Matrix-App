@@ -1,0 +1,503 @@
+{
+  "options": {
+    "projectId": "prj-migrated",
+    "now": "2026-10-29T00:00:00Z",
+    "name": "Migrated sample"
+  },
+  "document": {
+    "version": 2,
+    "project": {
+      "id": "prj-migrated",
+      "name": "Migrated sample",
+      "description": "",
+      "createdAt": "2026-10-29T00:00:00Z",
+      "updatedAt": "2026-10-29T00:00:00Z"
+    },
+    "settings": {
+      "ownerLabels": {
+        "appliance": "Appliance",
+        "federated": "Federated"
+      },
+      "timeline": {
+        "granularity": "quarter",
+        "start": "2026-10-01",
+        "periods": 9,
+        "asOf": "2026-10-01"
+      },
+      "audiences": [
+        {
+          "id": "client",
+          "label": "Client",
+          "description": "Uses and funds the capability",
+          "need": "Clear outcomes, usable guidance and a dependable operating experience."
+        },
+        {
+          "id": "consultant",
+          "label": "Consultant",
+          "description": "Advises, designs and enables",
+          "need": "Practical guidance for tailoring the product to a client context."
+        },
+        {
+          "id": "product-team",
+          "label": "Product team",
+          "description": "Builds and operates the product",
+          "need": "A clear product boundary, data contract and implementation ownership."
+        },
+        {
+          "id": "leadership",
+          "label": "Leadership",
+          "description": "Sets direction and allocates resources",
+          "need": "A defensible scope decision with visible dependencies and risk."
+        },
+        {
+          "id": "wider-domain",
+          "label": "Wider domain",
+          "description": "Extends value across the ecosystem",
+          "need": "How local capabilities contribute to the evolving domain solution."
+        }
+      ]
+    },
+    "capabilities": [
+      {
+        "id": "contextual-guidance",
+        "name": "Contextual guidance",
+        "current": 3,
+        "target": 5,
+        "owner": "appliance",
+        "futureOwner": "federated",
+        "summary": "Relevant, in-device and external guidance at the point of need.",
+        "decision": "Define the handoff from product-owned guidance to a federated content service.",
+        "dependencies": [
+          "deployment-metadata",
+          "content-service"
+        ],
+        "dita": {
+          "audience": [
+            "client",
+            "consultant"
+          ],
+          "maturity": "phase-3",
+          "ownership": "appliance-native"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Ad hoc content with no shared approach.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Basic in-app help and FAQs.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Consistent topics and terminology.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Product-owned guidance delivered in device.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Contextual, task-based guidance.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Shared guidance across products.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Partners and clients integrated.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Guidance across workflows and channels.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continuing wider-domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "client",
+          "consultant"
+        ]
+      },
+      {
+        "id": "deployment-metadata",
+        "name": "Deployment metadata",
+        "current": 3,
+        "target": 5,
+        "owner": "appliance",
+        "futureOwner": "appliance",
+        "summary": "Structured product, task and deployment context for downstream services.",
+        "decision": "Agree on a stable metadata contract before expanding content delivery.",
+        "dependencies": [],
+        "dita": {
+          "audience": [
+            "consultant",
+            "product-team"
+          ],
+          "maturity": "phase-3",
+          "ownership": "appliance-native"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Explore the need.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Describe the capability.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Define the model.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Operate a first version.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Measure outcomes.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Optimize the handoff.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Scale to more contexts.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Connect across domains.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continue domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "consultant",
+          "product-team"
+        ]
+      },
+      {
+        "id": "audit-trail",
+        "name": "Audit trail",
+        "current": 4,
+        "target": 6,
+        "owner": "federated",
+        "futureOwner": "federated",
+        "summary": "Evidence of actions and changes across the wider environment.",
+        "decision": "Assign event ownership and retention responsibilities across systems.",
+        "dependencies": [
+          "identity-service"
+        ],
+        "dita": {
+          "audience": [
+            "client",
+            "leadership"
+          ],
+          "maturity": "phase-4",
+          "ownership": "federated-infra"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Explore the need.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Describe the capability.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Define the model.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Operate a first version.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Measure outcomes.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Optimize the handoff.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Scale to more contexts.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Connect across domains.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continue domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "client",
+          "leadership"
+        ]
+      },
+      {
+        "id": "identity-service",
+        "name": "Identity service",
+        "current": 4,
+        "target": 6,
+        "owner": "federated",
+        "futureOwner": "federated",
+        "summary": "Shared identity and access context across the estate.",
+        "decision": "Clarify which system is authoritative for identity and permissions.",
+        "dependencies": [],
+        "dita": {
+          "audience": [
+            "product-team",
+            "consultant"
+          ],
+          "maturity": "phase-4",
+          "ownership": "federated-infra"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Explore the need.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Describe the capability.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Define the model.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Operate a first version.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Measure outcomes.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Optimize the handoff.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Scale to more contexts.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Connect across domains.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continue domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "product-team",
+          "consultant"
+        ]
+      },
+      {
+        "id": "content-service",
+        "name": "Content service",
+        "current": 2,
+        "target": 5,
+        "owner": "federated",
+        "futureOwner": "federated",
+        "summary": "Governed content served across products, channels and devices.",
+        "decision": "Map a single DITA content stock to embedded help and PDF manuals.",
+        "dependencies": [
+          "deployment-metadata"
+        ],
+        "dita": {
+          "audience": [
+            "client",
+            "consultant"
+          ],
+          "maturity": "phase-2",
+          "ownership": "federated-infra"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Explore the need.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Describe the capability.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Define the model.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Operate a first version.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Measure outcomes.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Optimize the handoff.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Scale to more contexts.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Connect across domains.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continue domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "client",
+          "consultant"
+        ]
+      },
+      {
+        "id": "domain-insight",
+        "name": "Domain insight",
+        "current": 2,
+        "target": 5,
+        "owner": "federated",
+        "futureOwner": "federated",
+        "summary": "Cross-domain reporting, insight and optimization opportunities.",
+        "decision": "Identify useful signals without expanding the appliance boundary.",
+        "dependencies": [
+          "audit-trail",
+          "content-service"
+        ],
+        "dita": {
+          "audience": [
+            "leadership",
+            "wider-domain"
+          ],
+          "maturity": "phase-2",
+          "ownership": "federated-infra"
+        },
+        "levels": [
+          {
+            "name": "Emerging",
+            "description": "Explore the need.",
+            "id": "emerging"
+          },
+          {
+            "name": "Initial",
+            "description": "Describe the capability.",
+            "id": "initial"
+          },
+          {
+            "name": "Defined",
+            "description": "Define the model.",
+            "id": "defined"
+          },
+          {
+            "name": "Managed",
+            "description": "Operate a first version.",
+            "id": "managed"
+          },
+          {
+            "name": "Measured",
+            "description": "Measure outcomes.",
+            "id": "measured"
+          },
+          {
+            "name": "Optimized",
+            "description": "Optimize the handoff.",
+            "id": "optimized"
+          },
+          {
+            "name": "Scaled",
+            "description": "Scale to more contexts.",
+            "id": "scaled"
+          },
+          {
+            "name": "Extended",
+            "description": "Connect across domains.",
+            "id": "extended"
+          },
+          {
+            "name": "Ecosystem",
+            "description": "Continue domain evolution.",
+            "id": "ecosystem"
+          }
+        ],
+        "audienceIds": [
+          "leadership",
+          "wider-domain"
+        ]
+      }
+    ],
+    "domains": [],
+    "timeSegments": [],
+    "mapViews": []
+  },
+  "notes": [
+    "Assigned project ID prj-migrated.",
+    "Assigned IDs to 54 maturity levels.",
+    "Added the default maturity levels to 6 capabilities.",
+    "Copied DITA audiences into business audience membership for 6 capabilities.",
+    "Domains, time-segment overrides and map views start empty."
+  ]
+}

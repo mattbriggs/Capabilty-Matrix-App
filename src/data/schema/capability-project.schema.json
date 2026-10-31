@@ -1,0 +1,1079 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capability-matrix.local/schema/capability-project.v2.json",
+  "title": "Capability project document",
+  "description": "Structural contract for version 2 capability project documents. Cross-record rules (unique IDs, references, maturity bounds, timeline dates, cycles) require the application validator.",
+  "$defs": {
+    "Audience": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Description",
+          "type": "string"
+        },
+        "need": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Need",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "Audience",
+      "type": "object"
+    },
+    "Capability": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "summary": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Summary",
+          "type": "string"
+        },
+        "decision": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Decision",
+          "type": "string"
+        },
+        "owner": {
+          "enum": [
+            "appliance",
+            "federated"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "futureOwner": {
+          "enum": [
+            "appliance",
+            "federated"
+          ],
+          "title": "Futureowner",
+          "type": "string"
+        },
+        "handoffDate": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Handoffdate"
+        },
+        "current": {
+          "minimum": 0,
+          "title": "Current",
+          "type": "integer"
+        },
+        "target": {
+          "minimum": 0,
+          "title": "Target",
+          "type": "integer"
+        },
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/Level"
+          },
+          "maxItems": 20,
+          "minItems": 2,
+          "title": "Levels",
+          "type": "array"
+        },
+        "milestones": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Milestone"
+          },
+          "title": "Milestones",
+          "type": "array"
+        },
+        "dependencies": {
+          "default": [],
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+            "type": "string"
+          },
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "domainId": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domainid"
+        },
+        "audienceIds": {
+          "default": [],
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+            "type": "string"
+          },
+          "title": "Audienceids",
+          "type": "array"
+        },
+        "definition": {
+          "$ref": "#/$defs/Definition",
+          "default": {
+            "purpose": "",
+            "scope": "",
+            "exclusions": "",
+            "outcomes": "",
+            "evidence": "",
+            "notes": ""
+          }
+        },
+        "journey": {
+          "$ref": "#/$defs/CapabilityJourney",
+          "default": {
+            "guidance": []
+          }
+        },
+        "dita": {
+          "$ref": "#/$defs/Dita",
+          "default": {
+            "audience": [],
+            "maturity": null,
+            "ownership": null
+          }
+        },
+        "extensions": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Extensions",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "owner",
+        "futureOwner",
+        "current",
+        "target",
+        "levels"
+      ],
+      "title": "Capability",
+      "type": "object"
+    },
+    "CapabilityJourney": {
+      "additionalProperties": true,
+      "properties": {
+        "guidance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GuidanceEntry"
+          },
+          "title": "Guidance",
+          "type": "array"
+        }
+      },
+      "title": "CapabilityJourney",
+      "type": "object"
+    },
+    "DataTableConfig": {
+      "additionalProperties": true,
+      "properties": {
+        "xAxis": {
+          "default": "capability",
+          "enum": [
+            "capability",
+            "maturity",
+            "audience",
+            "domain",
+            "time"
+          ],
+          "title": "Xaxis",
+          "type": "string"
+        },
+        "yAxis": {
+          "default": "audience",
+          "enum": [
+            "capability",
+            "maturity",
+            "audience",
+            "domain",
+            "time"
+          ],
+          "title": "Yaxis",
+          "type": "string"
+        },
+        "filters": {
+          "$ref": "#/$defs/TableFilters",
+          "default": {
+            "search": "",
+            "capabilityIds": []
+          }
+        }
+      },
+      "title": "DataTableConfig",
+      "type": "object"
+    },
+    "Definition": {
+      "additionalProperties": true,
+      "properties": {
+        "purpose": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "scope": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Scope",
+          "type": "string"
+        },
+        "exclusions": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Exclusions",
+          "type": "string"
+        },
+        "outcomes": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Outcomes",
+          "type": "string"
+        },
+        "evidence": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "notes": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "title": "Definition",
+      "type": "object"
+    },
+    "Dita": {
+      "additionalProperties": true,
+      "description": "Proposed DITA mapping. Records intent only; never a validated CCMS configuration.",
+      "properties": {
+        "audience": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Audience",
+          "type": "array"
+        },
+        "maturity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maturity"
+        },
+        "ownership": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ownership"
+        }
+      },
+      "title": "Dita",
+      "type": "object"
+    },
+    "Domain": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Description",
+          "type": "string"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Domain",
+      "type": "object"
+    },
+    "GuidanceEntry": {
+      "additionalProperties": true,
+      "properties": {
+        "audienceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Audienceid",
+          "type": "string"
+        },
+        "levelId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Levelid",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 20000,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "audienceId",
+        "levelId",
+        "text"
+      ],
+      "title": "GuidanceEntry",
+      "type": "object"
+    },
+    "JourneySection": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "enum": [
+            "purpose",
+            "scope",
+            "exclusions",
+            "outcomes",
+            "evidence",
+            "notes",
+            "stageCriteria",
+            "audienceGuidance"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Label",
+          "type": "string"
+        },
+        "visible": {
+          "default": true,
+          "title": "Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "JourneySection",
+      "type": "object"
+    },
+    "Level": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "Immutable level identity; the numeric rank is the level's position.",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Description",
+          "type": "string"
+        },
+        "outcomes": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Outcomes",
+          "type": "string"
+        },
+        "exitCriteria": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Exitcriteria",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Level",
+      "type": "object"
+    },
+    "MapFilters": {
+      "additionalProperties": true,
+      "properties": {
+        "owners": {
+          "default": [],
+          "items": {
+            "enum": [
+              "appliance",
+              "federated"
+            ],
+            "type": "string"
+          },
+          "title": "Owners",
+          "type": "array"
+        },
+        "domainIds": {
+          "default": [],
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+            "type": "string"
+          },
+          "title": "Domainids",
+          "type": "array"
+        },
+        "search": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Search",
+          "type": "string"
+        }
+      },
+      "title": "MapFilters",
+      "type": "object"
+    },
+    "MapView": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "layoutSeed": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Layoutseed",
+          "type": "integer"
+        },
+        "layoutVersion": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Layoutversion",
+          "type": "integer"
+        },
+        "viewport": {
+          "$ref": "#/$defs/Viewport"
+        },
+        "filters": {
+          "$ref": "#/$defs/MapFilters",
+          "default": {
+            "owners": [],
+            "domainIds": [],
+            "search": ""
+          }
+        },
+        "selectedCapabilityId": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selectedcapabilityid"
+        },
+        "audienceId": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Audienceid"
+        },
+        "currentDate": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currentdate"
+        },
+        "focusDate": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Focusdate"
+        },
+        "placements": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Placement"
+          },
+          "title": "Placements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "viewport"
+      ],
+      "title": "MapView",
+      "type": "object"
+    },
+    "Milestone": {
+      "additionalProperties": true,
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Date",
+          "type": "string"
+        },
+        "maturity": {
+          "minimum": 0,
+          "title": "Maturity",
+          "type": "integer"
+        },
+        "note": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "maturity"
+      ],
+      "title": "Milestone",
+      "type": "object"
+    },
+    "OwnerLabels": {
+      "additionalProperties": true,
+      "properties": {
+        "appliance": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Appliance",
+          "type": "string"
+        },
+        "federated": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Federated",
+          "type": "string"
+        }
+      },
+      "required": [
+        "appliance",
+        "federated"
+      ],
+      "title": "OwnerLabels",
+      "type": "object"
+    },
+    "Placement": {
+      "additionalProperties": true,
+      "description": "A remembered node position for one owner/domain placement context.",
+      "properties": {
+        "nodeId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Nodeid",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Context",
+          "type": "string"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "pinned": {
+          "default": false,
+          "title": "Pinned",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "nodeId",
+        "context",
+        "x",
+        "y"
+      ],
+      "title": "Placement",
+      "type": "object"
+    },
+    "Presentation": {
+      "additionalProperties": true,
+      "properties": {
+        "journeySections": {
+          "default": [
+            {
+              "id": "purpose",
+              "label": "Purpose",
+              "visible": true
+            },
+            {
+              "id": "scope",
+              "label": "Scope and inclusions",
+              "visible": true
+            },
+            {
+              "id": "exclusions",
+              "label": "Exclusions",
+              "visible": true
+            },
+            {
+              "id": "outcomes",
+              "label": "Outcomes",
+              "visible": true
+            },
+            {
+              "id": "evidence",
+              "label": "Evidence and references",
+              "visible": true
+            },
+            {
+              "id": "notes",
+              "label": "Notes",
+              "visible": true
+            },
+            {
+              "id": "stageCriteria",
+              "label": "Stage outcomes and exit criteria",
+              "visible": true
+            },
+            {
+              "id": "audienceGuidance",
+              "label": "Why it matters at each stage",
+              "visible": true
+            }
+          ],
+          "items": {
+            "$ref": "#/$defs/JourneySection"
+          },
+          "title": "Journeysections",
+          "type": "array"
+        },
+        "defaultGuidance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GuidanceEntry"
+          },
+          "title": "Defaultguidance",
+          "type": "array"
+        },
+        "dataTable": {
+          "$ref": "#/$defs/DataTableConfig",
+          "default": {
+            "xAxis": "capability",
+            "yAxis": "audience",
+            "filters": {
+              "capabilityIds": [],
+              "search": ""
+            }
+          }
+        }
+      },
+      "title": "Presentation",
+      "type": "object"
+    },
+    "ProjectMeta": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "Immutable project identity. Renaming or moving the file never changes it.",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 200,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Description",
+          "type": "string"
+        },
+        "createdAt": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+          "title": "Createdat",
+          "type": "string"
+        },
+        "updatedAt": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+          "title": "Updatedat",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "createdAt",
+        "updatedAt"
+      ],
+      "title": "ProjectMeta",
+      "type": "object"
+    },
+    "Settings": {
+      "additionalProperties": true,
+      "properties": {
+        "ownerLabels": {
+          "$ref": "#/$defs/OwnerLabels"
+        },
+        "audiences": {
+          "items": {
+            "$ref": "#/$defs/Audience"
+          },
+          "minItems": 1,
+          "title": "Audiences",
+          "type": "array"
+        },
+        "timeline": {
+          "$ref": "#/$defs/Timeline"
+        }
+      },
+      "required": [
+        "ownerLabels",
+        "audiences",
+        "timeline"
+      ],
+      "title": "Settings",
+      "type": "object"
+    },
+    "TableFilters": {
+      "additionalProperties": true,
+      "properties": {
+        "search": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Search",
+          "type": "string"
+        },
+        "capabilityIds": {
+          "default": [],
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$",
+            "type": "string"
+          },
+          "title": "Capabilityids",
+          "type": "array"
+        }
+      },
+      "title": "TableFilters",
+      "type": "object"
+    },
+    "TimeSegmentOverride": {
+      "additionalProperties": true,
+      "description": "Label/description override for a generated time segment, keyed by its ISO start date.",
+      "properties": {
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Date",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 20000,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "date"
+      ],
+      "title": "TimeSegmentOverride",
+      "type": "object"
+    },
+    "Timeline": {
+      "additionalProperties": true,
+      "properties": {
+        "granularity": {
+          "enum": [
+            "month",
+            "quarter",
+            "biannual",
+            "year"
+          ],
+          "title": "Granularity",
+          "type": "string"
+        },
+        "start": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Start",
+          "type": "string"
+        },
+        "periods": {
+          "maximum": 60,
+          "minimum": 2,
+          "title": "Periods",
+          "type": "integer"
+        },
+        "asOf": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Asof",
+          "type": "string"
+        }
+      },
+      "required": [
+        "granularity",
+        "start",
+        "periods",
+        "asOf"
+      ],
+      "title": "Timeline",
+      "type": "object"
+    },
+    "Viewport": {
+      "additionalProperties": true,
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "zoom": {
+          "exclusiveMinimum": 0,
+          "title": "Zoom",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "zoom"
+      ],
+      "title": "Viewport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "version": {
+      "const": 2,
+      "title": "Version",
+      "type": "integer"
+    },
+    "project": {
+      "$ref": "#/$defs/ProjectMeta"
+    },
+    "settings": {
+      "$ref": "#/$defs/Settings"
+    },
+    "capabilities": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Capability"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "domains": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Domain"
+      },
+      "title": "Domains",
+      "type": "array"
+    },
+    "timeSegments": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/TimeSegmentOverride"
+      },
+      "title": "Timesegments",
+      "type": "array"
+    },
+    "presentation": {
+      "$ref": "#/$defs/Presentation",
+      "default": {
+        "journeySections": [
+          {
+            "id": "purpose",
+            "label": "Purpose",
+            "visible": true
+          },
+          {
+            "id": "scope",
+            "label": "Scope and inclusions",
+            "visible": true
+          },
+          {
+            "id": "exclusions",
+            "label": "Exclusions",
+            "visible": true
+          },
+          {
+            "id": "outcomes",
+            "label": "Outcomes",
+            "visible": true
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence and references",
+            "visible": true
+          },
+          {
+            "id": "notes",
+            "label": "Notes",
+            "visible": true
+          },
+          {
+            "id": "stageCriteria",
+            "label": "Stage outcomes and exit criteria",
+            "visible": true
+          },
+          {
+            "id": "audienceGuidance",
+            "label": "Why it matters at each stage",
+            "visible": true
+          }
+        ],
+        "defaultGuidance": [],
+        "dataTable": {
+          "filters": {
+            "capabilityIds": [],
+            "search": ""
+          },
+          "xAxis": "capability",
+          "yAxis": "audience"
+        }
+      }
+    },
+    "mapViews": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/MapView"
+      },
+      "title": "Mapviews",
+      "type": "array"
+    },
+    "extensions": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Extensions",
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "project",
+    "settings"
+  ],
+  "type": "object"
+}
