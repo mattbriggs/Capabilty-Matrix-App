@@ -4,7 +4,7 @@ project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 venv_dir="$project_dir/.venv"
 export PYINSTALLER_CONFIG_DIR="$project_dir/.pyinstaller-config"
 python3 -m venv "$venv_dir"
-"$venv_dir/bin/python" -m pip install --disable-pip-version-check pyinstaller "pydantic>=2.11,<3"
+"$venv_dir/bin/python" -m pip install --disable-pip-version-check pyinstaller "pydantic==2.14.1"
 "$venv_dir/bin/python" -m PyInstaller --onefile --noconfirm --clean \
   --name capability-sidecar \
   --distpath "$project_dir/src-tauri/binaries" \

@@ -1,8 +1,8 @@
-/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/dyn_clone-846d604706254ac2.d: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/debug/deps/dyn_clone-846d604706254ac2.d: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
 
-/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/libdyn_clone-846d604706254ac2.rlib: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/debug/deps/libdyn_clone-846d604706254ac2.rlib: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
 
-/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/deps/libdyn_clone-846d604706254ac2.rmeta: /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
+/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/debug/deps/libdyn_clone-846d604706254ac2.rmeta: /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs /Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs
 
-/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs:
-/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/work/cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/lib.rs:
+/Users/mattbriggs/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/dyn-clone-1.0.20/src/macros.rs:

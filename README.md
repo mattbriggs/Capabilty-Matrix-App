@@ -31,7 +31,7 @@ See the [full analyst user guide](site/guide.md) for the end-to-end process, scr
 
 - Node.js and npm for the web preview.
 - Python 3.10 or later for the sidecar build and documentation commands.
-- Rust and the platform prerequisites required by [Tauri 2](https://v2.tauri.app/start/prerequisites/) for the desktop app.
+- Rust 1.97.1 (selected by [`rust-toolchain.toml`](rust-toolchain.toml)) and the platform prerequisites required by [Tauri 2](https://v2.tauri.app/start/prerequisites/) for the desktop app.
 
 ### Install dependencies
 

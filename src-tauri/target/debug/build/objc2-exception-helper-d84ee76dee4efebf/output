@@ -85,4 +85,4 @@ HOST_ARFLAGS = None
 ARFLAGS_aarch64_apple_darwin = None
 ARFLAGS_aarch64-apple-darwin = None
 cargo:rustc-link-lib=static=objc2_exception_helper_0_1
-cargo:rustc-link-search=native=/Users/mattbriggs/Documents/Codex/2026-10-25/new-chat/outputs/capability-ownership-app/src-tauri/target/debug/build/objc2-exception-helper-d84ee76dee4efebf/out
+cargo:rustc-link-search=native=/Users/mattbriggs/Git/Capabilty-Matrix-App/src-tauri/target/debug/build/objc2-exception-helper-d84ee76dee4efebf/out
